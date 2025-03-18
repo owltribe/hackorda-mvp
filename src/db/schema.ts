@@ -1,8 +1,8 @@
-import { integer, pgTable, varchar, serial, boolean, timestamp, jsonb } from "drizzle-orm/pg-core";
+import { integer, pgTable, varchar, boolean, timestamp, jsonb } from "drizzle-orm/pg-core";
 
 
 export const usersTable = pgTable("users", {
-  id: serial("id").primaryKey(),
+  id: integer().primaryKey().generatedAlwaysAsIdentity(),
   name: varchar("name", { length: 255 }).notNull(),
   email: varchar("email", { length: 255 }).notNull().unique(),
   age: integer("age").notNull(),
@@ -11,7 +11,7 @@ export const usersTable = pgTable("users", {
 });
 
 export const quizzesTable = pgTable("quizzes", {
-  id: serial("id").primaryKey(),
+  id: integer().primaryKey().generatedAlwaysAsIdentity(),
   title: varchar("title", { length: 255 }).notNull(),
   description: varchar("description", { length: 500 }),
   totalQuestions: integer("total_questions").notNull(),
@@ -19,7 +19,7 @@ export const quizzesTable = pgTable("quizzes", {
 });
 
 export const questionsTable = pgTable("questions", {
-  id: serial("id").primaryKey(),
+  id: integer().primaryKey().generatedAlwaysAsIdentity(),
   quizId: integer("quiz_id").notNull().references(() => quizzesTable.id, { onDelete: "cascade" }),
   questionText: varchar("question_text", { length: 1000 }).notNull(),
   options: jsonb("options").notNull(),
@@ -27,7 +27,7 @@ export const questionsTable = pgTable("questions", {
 });
 
 export const quizAttemptsTable = pgTable("quiz_attempts", {
-  id: serial("id").primaryKey(),
+  id: integer().primaryKey().generatedAlwaysAsIdentity(),
   userId: integer("user_id").notNull().references(() => usersTable.id, { onDelete: "cascade" }),
   quizId: integer("quiz_id").notNull().references(() => quizzesTable.id, { onDelete: "cascade" }),
   score: integer("score"),
@@ -35,7 +35,7 @@ export const quizAttemptsTable = pgTable("quiz_attempts", {
 });
 
 export const quizAnswersTable = pgTable("quiz_answers", {
-  id: serial("id").primaryKey(),
+  id: integer().primaryKey().generatedAlwaysAsIdentity(),
   attemptId: integer("attempt_id").notNull().references(() => quizAttemptsTable.id, { onDelete: "cascade" }),
   questionId: integer("question_id").notNull().references(() => questionsTable.id, { onDelete: "cascade" }),
   selectedAnswer: varchar("selected_answer", { length: 255 }).notNull(),
