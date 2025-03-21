@@ -7,9 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "generate": "npx drizzle-kit generate",
-    "migrate": "npx drizzle-kit migrate",
-    "seed": "node scripts/seed.js"
+    "generate": "npm run drizzle-kit generate",
+    "migrate": "npm run drizzle-kit migrate",
+    "seed": "tsx src/db/seed.ts"
   },
   "dependencies": {
     "@clerk/nextjs": "^6.12.5",
