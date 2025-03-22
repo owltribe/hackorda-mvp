@@ -7,8 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "generate": "npm run drizzle-kit generate",
-    "migrate": "npm run drizzle-kit migrate",
+    "generate": "drizzle-kit generate",
+    "migrate": "drizzle-kit migrate",
     "seed": "tsx src/db/seed.ts"
   },
   "dependencies": {
