@@ -3,7 +3,7 @@ import * as schema from "./schema";
 import { db } from "./index";
 
 async function main() {
-    console.log("Начало заполнения базы данных случайными данными...");
+    console.log("Starting database seeding with random data...");
 
     await seed(db, schema, {
         seed: 12345
@@ -63,11 +63,11 @@ async function main() {
         }
     }));
 
-    console.log("Заполнение базы данных завершено!");
+    console.log("Database seeding completed!");
 }
 
 main().catch(err => {
-    console.error("Ошибка заполнения базы данных:", err);
+    console.error("Database seeding error:", err);
     process.exit(1);
 });
 
