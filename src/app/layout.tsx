@@ -5,7 +5,6 @@ import { QueryProvider } from './_tanstack-providers';
 import {
   ClerkProvider,
   SignInButton,
-  SignUpButton,
   SignedIn,
   SignedOut,
   UserButton,
