@@ -1,7 +1,16 @@
 'use client';
 
-import { SignedIn, SignedOut, SignInButton } from '@clerk/nextjs';
 import { useQuery } from '@tanstack/react-query';
+import { Button } from '@/components/ui/button';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import Link from 'next/link';
 
 type TestResult = {
   testName: string;
@@ -21,44 +30,47 @@ export default function Home() {
       ]),
   });
 
-  if (isLoading) return <div className="container">Загрузка...</div>;
+  if (isLoading) return <div className="max-w-[600px] mx-auto p-5 text-center">Загрузка...</div>;
 
   return (
-    <div className="container">
-      <h1>HackOrda MVP</h1>
-      <SignedIn>
-        <button className="start-test-btn">Начать тест</button>
-      </SignedIn>
-      <SignedOut>
-        <SignInButton>
-          <button className="start-test-btn">Начать тест</button>
-        </SignInButton>
-      </SignedOut>
-      <table className="results-table">
-        <thead>
-          <tr>
-            <th>Test Name</th>
-            <th>Date</th>
-            <th>Score</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
+    <div className="max-w-[600px] mx-auto p-5 text-center">
+      <h1 className="font-sans text-2xl mb-5">HackOrda MVP</h1>
+      <Link href="/quiz">
+        <Button className="bg-black text-white py-2 px-5 rounded-md cursor-pointer font-sans text-base mb-[30px] hover:bg-gray-800">
+          Начать тест
+        </Button>
+      </Link>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead className="text-left font-normal text-gray-500">Test Name</TableHead>
+            <TableHead className="text-left font-normal text-gray-500">Date</TableHead>
+            <TableHead className="text-left font-normal text-gray-500">Score</TableHead>
+            <TableHead className="text-left font-normal text-gray-500">Status</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
           {data?.map((result, index) => (
-            <tr key={index}>
-              <td>{result.testName}</td>
-              <td>{result.date}</td>
-              <td>{result.score}%</td>
-              <td>
-                <span className={`status ${result.status.toLowerCase()}`}>
+            <TableRow key={index}>
+              <TableCell className="text-left">{result.testName}</TableCell>
+              <TableCell className="text-left">{result.date}</TableCell>
+              <TableCell className="text-left">{result.score}%</TableCell>
+              <TableCell className="text-left">
+                <span
+                  className={`inline-block px-2.5 py-1 rounded-full text-sm font-medium ${
+                    result.status === 'Pass'
+                      ? 'bg-green-100 text-green-800'
+                      : 'bg-red-100 text-red-800'
+                  }`}
+                >
                   {result.status}
                 </span>
-              </td>
-            </tr>
+              </TableCell>
+            </TableRow>
           ))}
-        </tbody>
-      </table>
-      <p className="recent-results">Recent test results</p>
+        </TableBody>
+      </Table>
+      <p className="font-sans text-sm text-gray-500 text-left">Recent test results</p>
     </div>
   );
 }
