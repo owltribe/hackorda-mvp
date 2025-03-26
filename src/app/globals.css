@@ -1,3 +1,4 @@
+
 @import "tailwindcss";
 
 @plugin "tailwindcss-animate";
@@ -41,7 +42,7 @@
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  --radius-xl: calc(var(--radius) +I 4px);
 }
 
 :root {
@@ -120,4 +121,90 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+
+.results-table th,
+.results-table td {
+  border: none; 
+  border-bottom: 1px solid #ddd; 
+}
+
+.container * {
+  outline: none;
+}
+
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+h1 {
+  font-family: var(--font-geist-sans);
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.start-test-btn {
+  background-color: #000;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: var(--font-geist-sans);
+  font-size: 16px;
+  margin-bottom: 30px;
+}
+
+.start-test-btn:hover {
+  background-color: #333;
+}
+
+.results-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  font-family: var(--font-geist-sans);
+}
+
+.results-table th,
+.results-table td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.results-table th {
+  font-weight: normal;
+  color: #666;
+}
+
+.results-table td {
+  color: #000;
+}
+
+.status {
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 14px;
+}
+
+.status.pass {
+  background-color: #e0f7e0;
+  color: #2e7d32;
+}
+
+.status.fail {
+  background-color: #ffebee;
+  color: #d32f2f;
+}
+
+.recent-results {
+  font-family: var(--font-geist-sans);
+  font-size: 14px;
+  color: #666;
+  text-align: left;
 }
