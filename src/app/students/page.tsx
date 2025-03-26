@@ -6,8 +6,6 @@ import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
@@ -84,7 +82,7 @@ export default function StudentsPage() {
       <div className="min-w-[100%] mb-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card className="w-full">
           <CardHeader>
-            <CardTitle className="flex justify-between">Total tests <BookOpen size={24} /></CardTitle>
+            <CardTitle className="flex justify-between">Total tests <BookOpen className="text-muted-foreground" size={24} /></CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex justify-between">
@@ -94,7 +92,7 @@ export default function StudentsPage() {
         </Card>
         <Card className="w-full">
           <CardHeader>
-            <CardTitle className="flex justify-between">Average Score <Award size={24} /></CardTitle>
+            <CardTitle className="flex justify-between">Average Score <Award className="text-muted-foreground" size={24} /></CardTitle>
           </CardHeader>
           <CardContent>
             <div>
@@ -104,7 +102,7 @@ export default function StudentsPage() {
         </Card>
         <Card className="w-full">
           <CardHeader>
-            <CardTitle className="flex justify-between">Pass Rate <Award size={24} /></CardTitle>
+            <CardTitle className="flex justify-between">Pass Rate <Award className="text-muted-foreground" size={24} /></CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex justify-between">
@@ -114,7 +112,7 @@ export default function StudentsPage() {
         </Card>
         <Card className="w-full">
           <CardHeader>
-            <CardTitle className="flex justify-between">Member Since <Calendar size={24} /></CardTitle>
+            <CardTitle className="flex justify-between">Member Since <Calendar className="text-muted-foreground" size={24} /></CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex justify-between">
@@ -128,10 +126,10 @@ export default function StudentsPage() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-3/6">Test Name</TableHead>
-              <TableHead className="w-1/6">Date</TableHead>
-              <TableHead className="w-1/6">Score</TableHead>
-              <TableHead className="w=1/6 text-right">Status</TableHead>
+              <TableHead className="w-3/6 text-muted-foreground">Test Name</TableHead>
+              <TableHead className="w-1/6 text-muted-foreground">Date</TableHead>
+              <TableHead className="w-1/6 text-muted-foreground">Score</TableHead>
+              <TableHead className="w=1/6 text-right text-muted-foreground">Status</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
