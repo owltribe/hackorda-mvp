@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { DataTable } from '@/app/data-table';
-import { columns } from '@/app/columns';
+import { DataTable } from './data-table';
+import { columns } from './columns';
 
 type TestResult = {
   testName: string;
