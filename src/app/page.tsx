@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { DataTable } from '@/components/test-results/data-table';
-import { columns } from '@/components/test-results/columns';
+import { DataTable } from '@/app/data-table';
+import { columns } from '@/app/columns';
 
 type TestResult = {
   testName: string;
@@ -34,7 +34,7 @@ export default async function Home() {
         </Button>
       </Link>
       <DataTable columns={columns} data={data} />
-      <p className="font-sans text-sm text-gray-500 text-left">Recent test results</p>
+      <p className="font-sans text-sm text-gray-500 mt-4 text-align: center">Recent test results</p>
     </div>
   );
 }
