@@ -74,7 +74,7 @@ export default function QuizPage() {
   const question = questions[currentIndex]
   const progress = Math.round(((currentIndex + (selectedVariant ? 1 : 0)) / questions.length) * 100)
 
-  function handleClick(variant:any) {
+  function handleClick(variant:Variant) {
     setSelectedVariant(variant)
 
     if (currentIndex < questions.length - 1){
