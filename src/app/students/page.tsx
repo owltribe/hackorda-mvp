@@ -80,7 +80,7 @@ export default function StudentsPage() {
           <h2 className="text-l font-light">Student Email</h2>
         </div>
       <div className="min-w-[100%] mb-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card className="w-full">
+        <Card className="w-full py-6">
           <CardHeader>
             <CardTitle className="flex justify-between">Total tests <BookOpen className="text-muted-foreground" size={24} /></CardTitle>
           </CardHeader>
@@ -90,7 +90,7 @@ export default function StudentsPage() {
             </div>
           </CardContent>  
         </Card>
-        <Card className="w-full">
+        <Card className="w-full py-6">
           <CardHeader>
             <CardTitle className="flex justify-between">Average Score <Award className="text-muted-foreground" size={24} /></CardTitle>
           </CardHeader>
@@ -100,7 +100,7 @@ export default function StudentsPage() {
             </div>
           </CardContent>  
         </Card>
-        <Card className="w-full">
+        <Card className="w-full py-6">
           <CardHeader>
             <CardTitle className="flex justify-between">Pass Rate <Award className="text-muted-foreground" size={24} /></CardTitle>
           </CardHeader>
@@ -110,7 +110,7 @@ export default function StudentsPage() {
             </div>
           </CardContent>  
         </Card>
-        <Card className="w-full">
+        <Card className="w-full py-6">
           <CardHeader>
             <CardTitle className="flex justify-between">Member Since <Calendar className="text-muted-foreground" size={24} /></CardTitle>
           </CardHeader>
