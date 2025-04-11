@@ -67,7 +67,7 @@ export function AppSidebar() {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
-              <a href="/">
+              <Link href="/">
                 <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-purple-700 text-sidebar-primary-foreground">
                   <Command className="size-4" />
                 </div>
@@ -75,7 +75,7 @@ export function AppSidebar() {
                   <span className="truncate font-semibold">HackOrda MVP</span>
                   <span className="truncate text-xs">Quiz App</span>
                 </div>
-              </a>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

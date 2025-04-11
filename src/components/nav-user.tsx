@@ -10,14 +10,12 @@ import {
 import {
   Avatar,
   AvatarFallback,
-  AvatarImage,
 } from "@/components/ui/avatar"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
@@ -28,7 +26,6 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar"
 import { useClerk } from "@clerk/nextjs"
-import { useRouter } from "next/navigation"
 
 interface User {
   id: string;
@@ -43,7 +40,6 @@ export function NavUser({
   user: User
 }) {
   const { isMobile } = useSidebar()
-  const router = useRouter()
   const { signOut } = useClerk()
   
   return (
