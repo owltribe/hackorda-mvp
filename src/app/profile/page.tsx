@@ -26,6 +26,13 @@ import {
   TableRow,
 } from "@/components/ui/table"
 
+type TestResult = {
+  TestName: string;
+  Date: string;
+  Score: string;
+  Status: string;
+};
+
 const invoices = [
   {
     TestName: "Test 1",
@@ -73,7 +80,7 @@ const invoices = [
 
 
 export default function StudentsPage() {
-  const [selectedTest, setSelectedTest] = React.useState<any | null>(null)
+  const [selectedTest, setSelectedTest] = React.useState<TestResult | null>(null)
   return (
     <div className="flex flex-col items-center justify-center p-2">
 
