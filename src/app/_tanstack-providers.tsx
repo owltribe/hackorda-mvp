@@ -6,7 +6,7 @@ import { ReactNode } from 'react';
 
  const queryClient = new QueryClient();
   
-  export function QueryProvider({ children }: { children: ReactNode }) {
+  export function TanstackQueryProvider({ children }: { children: ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
       {children}

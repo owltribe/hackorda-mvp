@@ -12,7 +12,6 @@ import {
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
-  AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
@@ -38,28 +37,27 @@ export default function QuizPage() {
     }
   }
   return (
-    <div className="flex flex-col items-center h-screen">
+    <div className="flex flex-col items-center justify-center p-2">
         <AlertDialog>
           <AlertDialogTrigger asChild>
-            <div className="flex w-full justify-start px-16">
-            <Button variant="secondary">← Exit the quiz</Button>
+            <div className="flex w-full justify-start">
+              <Button variant="destructive">Stop quiz</Button>
             </div>
           </AlertDialogTrigger>
           <AlertDialogContent>
-            <AlertDialogHeader>
+            <AlertDialogHeader className="flex flex-col justify-center items-center mb-4">
               <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
               <AlertDialogDescription>
                 This action cannot be undone. Your progress will be lost.
               </AlertDialogDescription>
             </AlertDialogHeader>
-            <AlertDialogFooter>
+
               <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction>
-                <Link href="/students">
-                  Continue
+              <AlertDialogAction className="bg-red-500 hover:bg-red-700">
+                <Link href="/profile">
+                    Continue
                 </Link>
               </AlertDialogAction>
-            </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
         <h1 className="text-3xl font-bold m-8">{question.category}</h1>

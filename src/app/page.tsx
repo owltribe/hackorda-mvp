@@ -29,7 +29,7 @@ export default async function Home() {
     <div className="max-w-7xl mx-auto p-5 text-center">
       <h1 className="font-sans text-2xl mb-5">HackOrda MVP</h1>
       <Link href="/quiz">
-        <Button className="bg-black text-white py-2 px-5 rounded-md cursor-pointer font-sans text-base mb-[30px] hover:bg-gray-800">
+        <Button className="bg-black dark:bg-white text-white dark:text-black py-2 px-5 rounded-md cursor-pointer font-sans text-base mb-[30px] hover:bg-gray-800 dark:hover:bg-gray-200">
           Начать тест
         </Button>
       </Link>
