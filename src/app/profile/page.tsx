@@ -1,3 +1,5 @@
+"use client"
+
 import * as React from "react"
 import { BookOpen,Award, Calendar } from 'lucide-react';
 import { Badge } from "@/components/ui/badge"
@@ -8,6 +10,14 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog"
+import { Button } from "@/components/ui/button"
+import {
   Table,
   TableBody,
   TableCell,
@@ -15,6 +25,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+
+type TestResult = {
+  TestName: string;
+  Date: string;
+  Score: string;
+  Status: string;
+};
 
 const invoices = [
   {
@@ -63,6 +80,7 @@ const invoices = [
 
 
 export default function StudentsPage() {
+  const [selectedTest, setSelectedTest] = React.useState<TestResult | null>(null)
   return (
     <div className="flex flex-col items-center justify-center p-2">
 
@@ -127,7 +145,9 @@ export default function StudentsPage() {
           </TableHeader>
           <TableBody>
             {invoices.map((invoice) => (
-              <TableRow key={invoice.TestName}>
+              <TableRow key={invoice.TestName}
+                className="hover:bg-muted cursor-pointer" 
+                onClick={() => setSelectedTest(invoice)} > 
                 <TableCell className="font-medium">{invoice.TestName}</TableCell>
                 <TableCell>{invoice.Date}</TableCell>
                 <TableCell>{invoice.Score}</TableCell>
@@ -137,7 +157,30 @@ export default function StudentsPage() {
           </TableBody>
         </Table>
       </div>
-
+      <Dialog open={!!selectedTest} onOpenChange={() => setSelectedTest(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle></DialogTitle>
+          </DialogHeader>
+          <p>
+            Вы хотите просмотреть подробные ответы по тесту:{" "}
+            <strong>{selectedTest?.TestName}</strong>?
+          </p>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setSelectedTest(null)} className="hover:cursor-pointer">Отмена</Button>
+            <Button
+              onClick={() => {
+                // Перенаправление на страницу с ответами (Пока что всплывающий алерт)
+                alert(`Переход к ответам по ${selectedTest?.TestName}`);
+                setSelectedTest(null);
+              }}
+              className="hover:cursor-pointer"
+            >
+              Да, просмотреть
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

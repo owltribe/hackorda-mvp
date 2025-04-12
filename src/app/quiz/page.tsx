@@ -52,12 +52,16 @@ export default function QuizPage() {
               </AlertDialogDescription>
             </AlertDialogHeader>
 
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction className="bg-red-500 hover:bg-red-700">
-                <Link href="/profile">
+              <AlertDialogCancel>
+                Cancel
+              </AlertDialogCancel>
+
+              <Link href="/profile">
+                <AlertDialogAction className="w-full bg-red-500 hover:bg-red-700 hover:cursor-pointer">
                     Continue
-                </Link>
-              </AlertDialogAction>
+                </AlertDialogAction>
+              </Link>
+
           </AlertDialogContent>
         </AlertDialog>
         <h1 className="text-3xl font-bold m-8">{question.category}</h1>
