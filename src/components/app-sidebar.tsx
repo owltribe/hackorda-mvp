@@ -61,7 +61,7 @@ const secondaryItems = [
 export function AppSidebar() {
   return (
     <Sidebar 
-      variant="floating" 
+      collapsible="icon"
     >
       <SidebarHeader>
         <SidebarMenu>
