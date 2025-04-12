@@ -167,13 +167,14 @@ export default function StudentsPage() {
             <strong>{selectedTest?.TestName}</strong>?
           </p>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setSelectedTest(null)}>Отмена</Button>
+            <Button variant="outline" onClick={() => setSelectedTest(null)} className="hover:cursor-pointer">Отмена</Button>
             <Button
               onClick={() => {
                 // Перенаправление на страницу с ответами (Пока что всплывающий алерт)
                 alert(`Переход к ответам по ${selectedTest?.TestName}`);
                 setSelectedTest(null);
               }}
+              className="hover:cursor-pointer"
             >
               Да, просмотреть
             </Button>
