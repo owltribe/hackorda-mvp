@@ -1,39 +1,74 @@
 {
-  "id": "371ce911-c864-4083-96e4-75507fadb264",
+  "id": "ab05eb8c-9f47-4f1f-84ee-cbc95f611272",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
+    "public.question_modules": {
+      "name": "question_modules",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "title": {
+          "name": "title",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "varchar(500)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "question_modules_title_unique": {
+          "name": "question_modules_title_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "title"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
     "public.questions": {
       "name": "questions",
       "schema": "",
       "columns": {
         "id": {
           "name": "id",
-          "type": "integer",
+          "type": "serial",
           "primaryKey": true,
-          "notNull": true,
-          "identity": {
-            "type": "always",
-            "name": "questions_id_seq",
-            "schema": "public",
-            "increment": "1",
-            "startWith": "1",
-            "minValue": "1",
-            "maxValue": "2147483647",
-            "cache": "1",
-            "cycle": false
-          }
+          "notNull": true
         },
-        "quiz_id": {
-          "name": "quiz_id",
+        "module_id": {
+          "name": "module_id",
           "type": "integer",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "question_text": {
           "name": "question_text",
-          "type": "varchar(1000)",
+          "type": "text",
           "primaryKey": false,
           "notNull": true
         },
@@ -43,26 +78,40 @@
           "primaryKey": false,
           "notNull": true
         },
-        "correct_answer": {
-          "name": "correct_answer",
-          "type": "varchar(255)",
+        "correct_option_key": {
+          "name": "correct_option_key",
+          "type": "varchar(10)",
           "primaryKey": false,
           "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
         }
       },
       "indexes": {},
       "foreignKeys": {
-        "questions_quiz_id_quizzes_id_fk": {
-          "name": "questions_quiz_id_quizzes_id_fk",
+        "questions_module_id_question_modules_id_fk": {
+          "name": "questions_module_id_question_modules_id_fk",
           "tableFrom": "questions",
-          "tableTo": "quizzes",
+          "tableTo": "question_modules",
           "columnsFrom": [
-            "quiz_id"
+            "module_id"
           ],
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
+          "onDelete": "set null",
           "onUpdate": "no action"
         }
       },
@@ -78,23 +127,12 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "integer",
+          "type": "serial",
           "primaryKey": true,
-          "notNull": true,
-          "identity": {
-            "type": "always",
-            "name": "quiz_answers_id_seq",
-            "schema": "public",
-            "increment": "1",
-            "startWith": "1",
-            "minValue": "1",
-            "maxValue": "2147483647",
-            "cache": "1",
-            "cycle": false
-          }
+          "notNull": true
         },
-        "attempt_id": {
-          "name": "attempt_id",
+        "history_id": {
+          "name": "history_id",
           "type": "integer",
           "primaryKey": false,
           "notNull": true
@@ -105,27 +143,34 @@
           "primaryKey": false,
           "notNull": true
         },
-        "selected_answer": {
-          "name": "selected_answer",
-          "type": "varchar(255)",
+        "selected_option_key": {
+          "name": "selected_option_key",
+          "type": "varchar(10)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "is_correct": {
           "name": "is_correct",
           "type": "boolean",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
+        },
+        "answered_at": {
+          "name": "answered_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
         }
       },
       "indexes": {},
       "foreignKeys": {
-        "quiz_answers_attempt_id_quiz_attempts_id_fk": {
-          "name": "quiz_answers_attempt_id_quiz_attempts_id_fk",
+        "quiz_answers_history_id_quiz_history_id_fk": {
+          "name": "quiz_answers_history_id_quiz_history_id_fk",
           "tableFrom": "quiz_answers",
-          "tableTo": "quiz_attempts",
+          "tableTo": "quiz_history",
           "columnsFrom": [
-            "attempt_id"
+            "history_id"
           ],
           "columnsTo": [
             "id"
@@ -153,26 +198,15 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.quiz_attempts": {
-      "name": "quiz_attempts",
+    "public.quiz_history": {
+      "name": "quiz_history",
       "schema": "",
       "columns": {
         "id": {
           "name": "id",
-          "type": "integer",
+          "type": "serial",
           "primaryKey": true,
-          "notNull": true,
-          "identity": {
-            "type": "always",
-            "name": "quiz_attempts_id_seq",
-            "schema": "public",
-            "increment": "1",
-            "startWith": "1",
-            "minValue": "1",
-            "maxValue": "2147483647",
-            "cache": "1",
-            "cycle": false
-          }
+          "notNull": true
         },
         "user_id": {
           "name": "user_id",
@@ -180,8 +214,8 @@
           "primaryKey": false,
           "notNull": true
         },
-        "quiz_id": {
-          "name": "quiz_id",
+        "number_of_questions": {
+          "name": "number_of_questions",
           "type": "integer",
           "primaryKey": false,
           "notNull": true
@@ -190,21 +224,35 @@
           "name": "score",
           "type": "integer",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true,
+          "default": 0
+        },
+        "selection_criteria": {
+          "name": "selection_criteria",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'random'"
         },
         "taken_at": {
           "name": "taken_at",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "default": "now()"
+        },
+        "completed_at": {
+          "name": "completed_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
         }
       },
       "indexes": {},
       "foreignKeys": {
-        "quiz_attempts_user_id_users_id_fk": {
-          "name": "quiz_attempts_user_id_users_id_fk",
-          "tableFrom": "quiz_attempts",
+        "quiz_history_user_id_users_id_fk": {
+          "name": "quiz_history_user_id_users_id_fk",
+          "tableFrom": "quiz_history",
           "tableTo": "users",
           "columnsFrom": [
             "user_id"
@@ -214,76 +262,8 @@
           ],
           "onDelete": "cascade",
           "onUpdate": "no action"
-        },
-        "quiz_attempts_quiz_id_quizzes_id_fk": {
-          "name": "quiz_attempts_quiz_id_quizzes_id_fk",
-          "tableFrom": "quiz_attempts",
-          "tableTo": "quizzes",
-          "columnsFrom": [
-            "quiz_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
         }
       },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "public.quizzes": {
-      "name": "quizzes",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "integer",
-          "primaryKey": true,
-          "notNull": true,
-          "identity": {
-            "type": "always",
-            "name": "quizzes_id_seq",
-            "schema": "public",
-            "increment": "1",
-            "startWith": "1",
-            "minValue": "1",
-            "maxValue": "2147483647",
-            "cache": "1",
-            "cycle": false
-          }
-        },
-        "title": {
-          "name": "title",
-          "type": "varchar(255)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "description": {
-          "name": "description",
-          "type": "varchar(500)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "total_questions": {
-          "name": "total_questions",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": false,
-          "default": "now()"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "policies": {},
@@ -296,20 +276,9 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "integer",
+          "type": "serial",
           "primaryKey": true,
-          "notNull": true,
-          "identity": {
-            "type": "always",
-            "name": "users_id_seq",
-            "schema": "public",
-            "increment": "1",
-            "startWith": "1",
-            "minValue": "1",
-            "maxValue": "2147483647",
-            "cache": "1",
-            "cycle": false
-          }
+          "notNull": true
         },
         "name": {
           "name": "name",
@@ -339,7 +308,7 @@
           "name": "created_at",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "default": "now()"
         }
       },
