@@ -75,7 +75,7 @@ async function main() {
     if (!moduleData) {
       console.log(`Looking up or creating module: ${moduleTitle}`);
       // Check if module already exists in DB (optional, but good practice)
-      let existingModule = await db.select({ id: schema.questionModules.id })
+      const existingModule = await db.select({ id: schema.questionModules.id })
         .from(schema.questionModules)
         .where(eq(schema.questionModules.title, moduleTitle))
         .limit(1);
