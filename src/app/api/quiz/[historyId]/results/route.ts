@@ -5,10 +5,11 @@ import { eq, inArray } from "drizzle-orm";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { historyId: string } }
+  { params }: { params: Promise<{ historyId: string }> }
 ) {
   try {
-    const historyId = parseInt(params.historyId);
+    const paramsData = await params;
+    const historyId = parseInt(paramsData.historyId);
 
     if (isNaN(historyId)) {
       return NextResponse.json({

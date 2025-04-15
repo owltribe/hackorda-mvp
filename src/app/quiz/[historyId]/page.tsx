@@ -29,7 +29,6 @@ export default function QuizSessionPage() {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [feedbackVisible, setFeedbackVisible] = useState(false);
-  const [quizCompleted, setQuizCompleted] = useState(false);
   
   const { 
     data: questions, 
@@ -45,7 +44,6 @@ export default function QuizSessionPage() {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
       const message = "You are in the middle of a quiz. Are you sure you want to leave? Your progress will be lost.";
       e.preventDefault();
-      e.returnValue = message;
       return message;
     };
 
@@ -84,14 +82,11 @@ export default function QuizSessionPage() {
         setFeedbackVisible(false);
         
         if (result.quizComplete) {
-          setQuizCompleted(true);
           router.push(`/quiz/results/${historyId}`);
         } else if (currentQuestion < questions!.length - 1) {
           setCurrentQuestion(prev => prev + 1);
           setSelectedOption(null);
         } else {
-          // This shouldn't happen with the backend tracking completion, but just in case
-          setQuizCompleted(true);
           router.push(`/quiz/results/${historyId}`);
         }
         

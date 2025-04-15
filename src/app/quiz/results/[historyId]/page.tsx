@@ -99,8 +99,8 @@ export default function QuizResultsPage() {
           
           <div className="space-y-4 mt-8">
             <h3 className="text-lg font-medium">Question Summary</h3>
-            {results.answers.map((answer, _) => (
-              <div key={answer.id} className="flex items-start gap-3 p-4 border rounded-lg">
+            {results.answers.map((answer, index) => (
+              <div key={index} className="flex items-start gap-3 p-4 border rounded-lg">
                 <div className="flex-shrink-0 mt-1">
                   {answer.isCorrect ? (
                     <CheckCircle className="h-6 w-6 text-green-500" />

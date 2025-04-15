@@ -1,28 +1,13 @@
 'use client';
 
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { QuizStarter } from "@/components/quiz-starter/quiz-starter";
-
-// Define module type
-interface Module {
-  id: number;
-  title: string;
-  totalQuestions: number;
-}
 
 interface User {
   id: number;
   name: string;
 }
-
-// Temporary mock data for modules - replace with actual data fetching
-const MOCK_MODULES: Module[] = [
-  { id: 1, title: "Basic Knowledge", totalQuestions: 15 },
-  { id: 2, title: "Advanced Topics", totalQuestions: 10 },
-  { id: 3, title: "Expert Level", totalQuestions: 8 },
-];
 
 export default function QuizPage() {
   const [user, setUser] = useState<User | null>(null);

@@ -195,7 +195,7 @@ export default function ProfilePage() {
             </Table>
           ) : (
             <div className="text-center py-8 text-muted-foreground">
-              You haven't taken any quizzes yet.
+              You haven&apos;t taken any quizzes yet.
               <div className="mt-4">
                 <Button onClick={() => router.push('/')}>
                   Start a Quiz

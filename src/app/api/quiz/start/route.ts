@@ -1,12 +1,12 @@
 import { db } from "@/db";
 import { NextRequest, NextResponse } from "next/server";
 import { quizHistory, questions } from "@/db/schema";
-import { eq, sql } from "drizzle-orm";
+import { sql } from "drizzle-orm";
 
 // This endpoint creates a new quiz session
 export async function POST(request: NextRequest) {
   try {
-    const { userId, moduleId, numberOfQuestions = 3 } = await request.json();
+    const { userId, numberOfQuestions = 3 } = await request.json();
 
     if (!userId) {
       return NextResponse.json({
@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Query to get the question IDs
-    let query = db.select({ id: questions.id })
+    const query = db.select({ id: questions.id })
       .from(questions)
       .orderBy(sql`RANDOM()`)
       .limit(numberOfQuestions);

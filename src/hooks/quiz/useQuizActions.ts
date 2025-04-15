@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
+// TODO: separate hooks
 // Hook for starting a new quiz
 export const useStartQuiz = () => {
   const queryClient = useQueryClient();
@@ -44,7 +45,6 @@ export const useStartQuiz = () => {
 
 // Hook for answering a question
 export const useAnswerQuestion = () => {
-  const queryClient = useQueryClient();
   
   return useMutation({
     mutationFn: async ({ 

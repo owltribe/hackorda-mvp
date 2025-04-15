@@ -4,12 +4,13 @@ import { quizHistory, questions } from "@/db/schema";
 import { eq, inArray } from "drizzle-orm";
 
 // This endpoint gets questions for a specific quiz session
-export async function GET(
+export const GET = async (
   request: NextRequest,
-  { params }: { params: { historyId: string } }
-) {
+  { params }: { params: Promise<{ historyId: string }> }
+) => {
   try {
-    const historyId = parseInt(params.historyId);
+    const paramsData = await params;
+    const historyId = parseInt(paramsData.historyId);
 
     if (isNaN(historyId)) {
       return NextResponse.json({
@@ -44,7 +45,6 @@ export async function GET(
     const questionIds = quizRecord[0].questionIds;
 
     // Fetch the questions in the exact order they were stored
-    // This requires a bit more complex query to preserve the order
     const questionsData = await db.select()
       .from(questions)
       .where(inArray(questions.id, questionIds));
@@ -66,4 +66,4 @@ export async function GET(
       error: "Internal server error",
     }, { status: 500 });
   }
-} 
+}; 
