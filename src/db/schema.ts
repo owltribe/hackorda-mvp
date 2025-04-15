@@ -2,6 +2,7 @@ import { integer, pgTable, varchar, boolean, timestamp, jsonb, serial, text } fr
 
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
+  clerkId: varchar("clerk_id", { length: 255 }).notNull().unique(),
   name: varchar("name", { length: 255 }).notNull(),
   email: varchar("email", { length: 255 }).notNull().unique(),
   age: integer("age").notNull(),
@@ -13,6 +14,7 @@ export const questionModules = pgTable("question_modules", {
   id: serial("id").primaryKey(),
   title: varchar("title", { length: 255 }).notNull().unique(),
   description: varchar("description", { length: 500 }),
+  totalQuestions: integer("total_questions").default(0).notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
@@ -30,6 +32,8 @@ export const quizHistory = pgTable("quiz_history", {
   id: serial("id").primaryKey(),
   userId: integer("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
   numberOfQuestions: integer("number_of_questions").notNull(),
+  questionIds: jsonb("question_ids").$type<number[]>().notNull(),
+  status: varchar("status", { length: 50 }).default('in_progress').notNull(),
   score: integer("score").notNull().default(0),
   selectionCriteria: text("selection_criteria").default('random'),
   takenAt: timestamp("taken_at").defaultNow().notNull(),

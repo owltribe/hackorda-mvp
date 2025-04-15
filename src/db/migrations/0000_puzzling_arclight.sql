@@ -2,6 +2,7 @@ CREATE TABLE "question_modules" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"title" varchar(255) NOT NULL,
 	"description" varchar(500),
+	"total_questions" integer DEFAULT 0 NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	CONSTRAINT "question_modules_title_unique" UNIQUE("title")
 );

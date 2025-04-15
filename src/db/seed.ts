@@ -137,25 +137,43 @@ async function main() {
     moduleData.questions.push(questionInsert);
   }
 
-  // Insert collected questions
-  console.log("Inserting questions into the database...");
+  // Insert collected questions and update module counts
+  console.log("Inserting questions and updating module counts...");
   let totalInsertedQuestions = 0;
   for (const [title, data] of modulesMap.entries()) {
-    if (data.questions.length > 0) {
+    const questionCount = data.questions.length; // Get the count before potential insertion failure
+    if (questionCount > 0) {
       try {
+        // Insert questions first
         await db.insert(schema.questions).values(data.questions);
-        console.log(`Inserted ${data.questions.length} questions for module "${title}".`);
-        totalInsertedQuestions += data.questions.length;
+        console.log(`Inserted ${questionCount} questions for module "${title}".`);
+        totalInsertedQuestions += questionCount;
+
+        // Then update the module's totalQuestions count
+        await db.update(schema.questionModules)
+          .set({ totalQuestions: questionCount })
+          .where(eq(schema.questionModules.id, data.moduleId));
+        console.log(`Updated total questions count for module "${title}" to ${questionCount}.`);
+
       } catch (error) {
-        console.error(`Error inserting questions for module "${title}":`, error);
-        // TODO: logging which questions failed if possible
+        console.error(`Error processing module "${title}":`, error);
+        // Consider if you want to skip the count update if insertion fails
       }
     } else {
       console.log(`No valid questions found or processed for module "${title}".`);
+      // Optionally update count to 0 even if no questions were inserted, if the module was created
+      try {
+        await db.update(schema.questionModules)
+          .set({ totalQuestions: 0 })
+          .where(eq(schema.questionModules.id, data.moduleId));
+         console.log(`Set total questions count for module "${title}" to 0 as no questions were added.`);
+      } catch (updateError) {
+         console.error(`Error updating empty module "${title}" count:`, updateError);
+      }
     }
   }
 
-  console.log(`Database seeding from CSV completed! Inserted ${totalInsertedQuestions} questions.`);
+  console.log(`Database seeding from CSV completed! Inserted ${totalInsertedQuestions} questions across ${modulesMap.size} modules.`);
 }
 
 main().catch(err => {
