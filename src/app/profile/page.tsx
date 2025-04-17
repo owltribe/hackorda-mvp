@@ -103,7 +103,7 @@ export default function ProfilePage() {
   
   return (  
     <div className="flex flex-col items-center justify-center p-4">
-      <div className="w-full max-w-6xl">
+      <div className="w-full">
         <div className="flex flex-col mb-6">
           <h1 className="text-2xl font-bold">{user?.name || 'Student Name'}</h1>
           <h2 className="text-l text-muted-foreground">{user?.email || 'Student Email'}</h2>
@@ -112,7 +112,7 @@ export default function ProfilePage() {
         <div className="grid grid-cols-1 mb-6 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-full">
           <Card className="w-full py-4">
             <CardHeader className="py-2">
-              <CardTitle className="flex justify-between text-base">Total Quizzes<BookOpen className="text-muted-foreground" size={20} /></CardTitle>
+              <CardTitle className="flex justify-between text-base">Total Quizzes<BookOpen className="text-green-brand" size={20} /></CardTitle>
             </CardHeader>
             <CardContent>
               <div className="flex justify-between">
@@ -123,7 +123,7 @@ export default function ProfilePage() {
           
           <Card className="w-full py-4">
             <CardHeader className="py-2">
-              <CardTitle className="flex justify-between text-base">Completed<Calendar className="text-muted-foreground" size={20} /></CardTitle>
+              <CardTitle className="flex justify-between text-base">Completed<Calendar className="text-green-brand" size={20} /></CardTitle>
             </CardHeader>
             <CardContent>
               <div>
@@ -134,7 +134,7 @@ export default function ProfilePage() {
           
           <Card className="w-full py-4">
             <CardHeader className="py-2">
-              <CardTitle className="flex justify-between text-base">Average Score<BookOpen className="text-muted-foreground" size={20} /></CardTitle>
+              <CardTitle className="flex justify-between text-base">Average Score<BookOpen className="text-green-brand" size={20} /></CardTitle>
             </CardHeader>
             <CardContent>
               <div className="flex justify-between">
@@ -145,7 +145,7 @@ export default function ProfilePage() {
           
           <Card className="w-full py-4">
             <CardHeader className="py-2">
-              <CardTitle className="flex justify-between text-base">Average Percentage<Award className="text-muted-foreground" size={20} /></CardTitle>
+              <CardTitle className="flex justify-between text-base">Average Percentage<Award className="text-green-brand" size={20} /></CardTitle>
             </CardHeader>
             <CardContent>
               <div>
@@ -155,8 +155,7 @@ export default function ProfilePage() {
           </Card>
         </div>
 
-        <div className="border rounded-xl p-4 md:p-6 w-full mb-6">
-          <h1 className="text-xl font-bold mb-4">Quiz History</h1>
+        <div className="border rounded-xl p-4">
           {recentQuizzes.length > 0 ? (
             <Table>
               <TableHeader>

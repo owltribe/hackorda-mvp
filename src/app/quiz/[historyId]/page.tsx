@@ -4,21 +4,9 @@ import React, { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { Progress } from "@/components/ui/progress";
 import { Card, CardContent } from "@/components/ui/card";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
-import { X } from "lucide-react";
 import { QuestionCard } from "@/components/question-card/question-card";
 import { useQuizSessionQuestions } from "@/hooks/questions/useQuestions";
-import { useAnswerQuestion, useAbandonQuiz } from "@/hooks/quiz/useQuizActions";
+import { useAnswerQuestion} from "@/hooks/quiz/useQuizActions";
 
 export default function QuizSessionPage() {
   const params = useParams();
@@ -37,7 +25,6 @@ export default function QuizSessionPage() {
   } = useQuizSessionQuestions(historyId);
   
   const answerMutation = useAnswerQuestion();
-  const abandonMutation = useAbandonQuiz();
 
   // Handle page refresh/close/navigation
   useEffect(() => {
@@ -54,14 +41,6 @@ export default function QuizSessionPage() {
     };
   }, []);
 
-  const handleAbandonQuiz = async () => {
-    try {
-      await abandonMutation.mutateAsync({ historyId });
-      router.push("/profile");
-    } catch (error) {
-      console.error("Failed to abandon quiz:", error);
-    }
-  };
 
   const handleOptionSelect = async (optionKey: string) => {
     if (isSubmitting || feedbackVisible) return;
@@ -109,30 +88,6 @@ export default function QuizSessionPage() {
 
   return (
     <div className="relative min-h-full flex flex-col items-center justify-center p-4 mx-auto">
-      <AlertDialog>
-        <AlertDialogTrigger asChild>
-          <Button variant="destructive" className="absolute left-4 top-4 flex items-center gap-2">
-            <X className="h-4 w-4" />
-            Stop quiz
-          </Button>
-        </AlertDialogTrigger>
-        <AlertDialogContent>
-          <AlertDialogHeader className="flex flex-col justify-center items-center mb-4">
-            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-            <AlertDialogDescription>
-              This action cannot be undone. Your progress will be lost.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction 
-            className="w-full bg-red-500 hover:bg-red-700 hover:cursor-pointer"
-            onClick={handleAbandonQuiz}
-          >
-            Stop Quiz
-          </AlertDialogAction>
-        </AlertDialogContent>
-      </AlertDialog>
-
       <div className="w-full max-w-4xl space-y-8">
         <h2 className="mb-8 text-center text-2xl font-semibold">
           {currentQuestionData.questionText}

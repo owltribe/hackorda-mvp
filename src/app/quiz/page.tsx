@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useEffect, useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { QuizStarter } from "@/components/quiz-starter/quiz-starter";
 
 interface User {
@@ -53,14 +52,9 @@ export default function QuizPage() {
 
   return (
     <div className="container mx-auto py-10 px-4">
-      <Card className="mx-auto max-w-4xl">
-        <CardHeader>
-          <CardTitle className="text-2xl text-center">Start a New Quiz</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <QuizStarter userId={user.id} />
-        </CardContent>
-      </Card>
+      <div className="mx-auto max-w-4xl">
+        <QuizStarter userId={user.id} />
+      </div>
     </div>
   );
 }

@@ -29,6 +29,7 @@ export const questions = pgTable("questions", {
 });
 
 export const quizHistory = pgTable("quiz_history", {
+  // TODO: change to uuid
   id: serial("id").primaryKey(),
   userId: integer("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
   numberOfQuestions: integer("number_of_questions").notNull(),
