@@ -23,7 +23,7 @@ export default function RootLayout({
         <ClerkProvider>
           <ThemeProvider
             attribute="class"
-            defaultTheme="white"
+            defaultTheme="dark"
             enableSystem
             disableTransitionOnChange
           >
@@ -32,11 +32,11 @@ export default function RootLayout({
                 <div className="flex h-screen w-full mx-2">
                   <AppSidebar />
                   <div className="flex-1 flex flex-col w-full my-2">
-                    <header className="sticky top-0 z-10 flex justify-between items-center border-b py-2 px-2 shrink-0">
+                    <header className="sticky top-0 z-10 flex justify-between items-center border-b border-green-brand py-2 px-2 shrink-0">
                       <SidebarTrigger />
                       <ThemeToggle />
                     </header>
-                    <main className="flex-1 w-full">
+                    <main className="flex-1 w-full overflow-y-auto">
                       {children}
                     </main>
                   </div>

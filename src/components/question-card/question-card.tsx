@@ -29,9 +29,9 @@ export function QuestionCard({
           
           let buttonStyle = "";
           if (showFeedback && isSelected) {
-            buttonStyle = isCorrect ? "bg-green-500 hover:bg-green-600 text-white" : "bg-red-500 hover:bg-red-600 text-white";
+            buttonStyle = isCorrect ? "dark:bg-[#22D62B] hover:bg-[#22D62B]/80 text-white" : "dark:bg-[#CC3939] hover:bg-[#CC3939]/80 text-white";
           } else if (isSelected) {
-            buttonStyle = "border-2 border-primary";
+            buttonStyle = "border-2 border-[#79745c] dark:border-[#79745c]";
           }
           
           return (
