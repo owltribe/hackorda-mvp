@@ -102,7 +102,7 @@ export default function ProfilePage() {
   }
   
   return (  
-    <div className="flex flex-col items-center justify-center p-4">
+    <div className="flex flex-col items-center justify-center">
       <div className="w-full">
         <div className="flex flex-col mb-6">
           <h1 className="text-2xl font-bold">{user?.name || 'Student Name'}</h1>

@@ -88,7 +88,7 @@ export function AppSidebar() {
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-semibold">HackOrda MVP</span>
-                  <span className="truncate text-xs">Quiz App</span>
+                  <span className="truncate text-xs">Phase 1</span>
                 </div>
               </Link>
             </SidebarMenuButton>

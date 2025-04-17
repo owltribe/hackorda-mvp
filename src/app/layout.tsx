@@ -36,7 +36,7 @@ export default function RootLayout({
                       <SidebarTrigger />
                       <ThemeToggle />
                     </header>
-                    <main className="flex-1 w-full overflow-y-auto">
+                    <main className="flex-1 w-full overflow-y-auto py-4 pr-3">
                       {children}
                     </main>
                   </div>

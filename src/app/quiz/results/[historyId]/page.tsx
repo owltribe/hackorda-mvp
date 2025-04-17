@@ -41,7 +41,7 @@ export default function QuizResultsPage() {
   
   return (
     <div className="w-full">
-      <div className="p-6 rounded-lg shadow">
+      <div className="rounded-lg shadow">
         <div className="text-center">
           <h1 className="text-3xl font-bold mb-2">Quiz Results</h1>
           <p className="text-muted-foreground">
