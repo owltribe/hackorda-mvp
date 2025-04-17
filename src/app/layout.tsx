@@ -31,12 +31,12 @@ export default function RootLayout({
               <SidebarProvider>
                 <div className="flex h-screen w-full mx-2">
                   <AppSidebar />
-                  <div className="flex-1 flex flex-col w-full my-2">
-                    <header className="sticky top-0 z-10 flex justify-between items-center border-b border-green-brand py-2 shrink-0">
+                  <div className="flex-1 flex flex-col w-full mb-2 mr-2">
+                    <header className="sticky top-0 z-10 flex justify-between items-center py-2 shrink-0">
                       <SidebarTrigger />
                       <ThemeToggle />
                     </header>
-                    <main className="flex-1 w-full overflow-y-auto py-4 pr-3">
+                    <main className="flex-1 w-full overflow-y-auto py-2">
                       {children}
                     </main>
                   </div>

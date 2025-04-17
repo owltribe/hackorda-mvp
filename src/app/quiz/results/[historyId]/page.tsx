@@ -41,7 +41,23 @@ export default function QuizResultsPage() {
   
   return (
     <div className="w-full">
-      <div className="rounded-lg shadow">
+        <div className="flex flex-row justify-between">
+          <Button 
+            variant="outline" 
+            className="flex items-center gap-2"
+            onClick={() => router.push('/profile')}
+          >
+            <ChevronLeft className="h-4 w-4" />
+            Back to Profile
+          </Button>
+          <Button 
+            className="w-full sm:w-auto flex items-center gap-2"
+            onClick={handleStartNewQuiz}
+          >
+            <RotateCw className="h-4 w-4" />
+            Take Another Quiz
+          </Button>
+        </div>
         <div className="text-center">
           <h1 className="text-3xl font-bold mb-2">Quiz Results</h1>
           <p className="text-muted-foreground">
@@ -112,24 +128,7 @@ export default function QuizResultsPage() {
             ))}
           </div>
         </div>
-        <div className="flex flex-row justify-around mt-6">
-          <Button 
-            variant="outline" 
-            className="flex items-center gap-2"
-            onClick={() => router.push('/profile')}
-          >
-            <ChevronLeft className="h-4 w-4" />
-            Back to Profile
-          </Button>
-          <Button 
-            className="w-full sm:w-auto flex items-center gap-2"
-            onClick={handleStartNewQuiz}
-          >
-            <RotateCw className="h-4 w-4" />
-            Take Another Quiz
-          </Button>
-        </div>
-      </div>
+
     </div>
   );
 } 
