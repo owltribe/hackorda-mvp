@@ -2,8 +2,8 @@ graph TD
     %% Frontend Components
     Profile["Profile Page<br/>/profile"]
     QuizStarter["Quiz Starter<br/>/quiz"]
-    QuizSession["Quiz Session<br/>/quiz/[historyId]"]
-    QuizResults["Quiz Results<br/>/quiz/results/[historyId]"]
+    QuizSession["Quiz Session<br/>/quiz/[sessionId]"]
+    QuizResults["Quiz Results<br/>/quiz/results/[sessionId]"]
     QuestionCard["Question Card Component"]
 
     %% Frontend Hooks
@@ -13,22 +13,22 @@ graph TD
     AnswerHook["useAnswerQuestion"]
     AbandonHook["useAbandonQuiz"]
     ResultsHook["useQuizResults"]
-    HistoryHook["Profile useEffect"]
+    sessionHook["Profile useEffect"]
 
     %% Backend API Routes
     APIStart["POST /api/quiz/start"]
-    APIQuestions["GET /api/quiz/[historyId]/questions"]
+    APIQuestions["GET /api/quiz/[sessionId]/questions"]
     APIAnswer["POST /api/quiz/answer"]
     APIAbandon["POST /api/quiz/abandon"]
-    APIResults["GET /api/quiz/results/[historyId]"]
-    APIHistory["GET /api/users/[userId]/quiz-history"]
+    APIResults["GET /api/quiz/results/[sessionId]"]
+    APIsession["GET /api/users/[userId]/quiz-session"]
     APIWebhook["POST /api/webhooks/clerk"]
 
     %% Database Tables
     DBUsers["Users Table"]
     DBQuestions["Questions Table"]
     DBModules["Question Modules Table"]
-    DBHistory["Quiz History Table"]
+    DBsession["Quiz session Table"]
     DBAnswers["Quiz Answers Table"]
 
     %% External Service
@@ -36,7 +36,7 @@ graph TD
 
     %% Frontend Component Relationships
     Profile --> ClerkHooks
-    Profile --> HistoryHook
+    Profile --> sessionHook
     QuizStarter --> StartQuizHook
     QuizSession --> QuizQuestionsHook
     QuizSession --> QuestionCard
@@ -51,21 +51,21 @@ graph TD
     AnswerHook --> APIAnswer
     AbandonHook --> APIAbandon
     ResultsHook --> APIResults
-    HistoryHook --> APIHistory
+    sessionHook --> APIsession
 
     %% API to Database Relationships
     APIStart --> DBUsers
     APIStart --> DBQuestions
-    APIStart --> DBHistory
+    APIStart --> DBsession
     APIQuestions --> DBQuestions
-    APIQuestions --> DBHistory
+    APIQuestions --> DBsession
     APIAnswer --> DBAnswers
-    APIAnswer --> DBHistory
-    APIAbandon --> DBHistory
-    APIResults --> DBHistory
+    APIAnswer --> DBsession
+    APIAbandon --> DBsession
+    APIResults --> DBsession
     APIResults --> DBAnswers
-    APIHistory --> DBHistory
-    APIHistory --> DBUsers
+    APIsession --> DBsession
+    APIsession --> DBUsers
 
     %% Clerk Integration
     Clerk --> APIWebhook
@@ -79,7 +79,7 @@ graph TD
     classDef external fill:#fff,stroke:#333,stroke-width:2px
 
     class Profile,QuizStarter,QuizSession,QuizResults,QuestionCard component
-    class ClerkHooks,StartQuizHook,QuizQuestionsHook,AnswerHook,AbandonHook,ResultsHook,HistoryHook hook
-    class APIStart,APIQuestions,APIAnswer,APIAbandon,APIResults,APIHistory,APIWebhook api
-    class DBUsers,DBQuestions,DBModules,DBHistory,DBAnswers db
+    class ClerkHooks,StartQuizHook,QuizQuestionsHook,AnswerHook,AbandonHook,ResultsHook,sessionHook hook
+    class APIStart,APIQuestions,APIAnswer,APIAbandon,APIResults,APIsession,APIWebhook api
+    class DBUsers,DBQuestions,DBModules,DBsession,DBAnswers db
     class Clerk external

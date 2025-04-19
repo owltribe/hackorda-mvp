@@ -57,8 +57,8 @@ const secondaryItems = [
 export function AppSidebar() {
   const pathname = usePathname();
   const params = useParams();
-  const historyId = parseInt(params.historyId as string);
-  const isInQuiz = pathname.startsWith(`/quiz/${historyId}`) && !pathname.includes('/results') && pathname !== '/quiz';
+  const sessionId = parseInt(params.sessionId as string);
+  const isInQuiz = pathname.startsWith(`/quiz/${sessionId}`) && !pathname.includes('/results') && pathname !== '/quiz';
   const { setOpen } = useSidebar();
   const hasAutoCollapsed = useRef(false);
   

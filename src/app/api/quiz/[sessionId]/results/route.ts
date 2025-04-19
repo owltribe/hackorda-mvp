@@ -1,27 +1,27 @@
 import { db } from "@/db";
 import { NextRequest, NextResponse } from "next/server";
-import { quizHistory, quizAnswers, questions } from "@/db/schema";
+import { quizSession, quizAnswers, questions } from "@/db/schema";
 import { eq, inArray } from "drizzle-orm";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ historyId: string }> }
+  { params }: { params: Promise<{ sessionId: string }> }
 ) {
   try {
     const paramsData = await params;
-    const historyId = parseInt(paramsData.historyId);
+    const sessionId = parseInt(paramsData.sessionId);
 
-    if (isNaN(historyId)) {
+    if (isNaN(sessionId)) {
       return NextResponse.json({
         success: false,
-        error: "Invalid history ID",
+        error: "Invalid session ID",
       }, { status: 400 });
     }
 
-    // Get the quiz history record
+    // Get the quiz session record
     const quizRecord = await db.select()
-      .from(quizHistory)
-      .where(eq(quizHistory.id, historyId))
+      .from(quizSession)
+      .where(eq(quizSession.id, sessionId))
       .limit(1);
 
     if (quizRecord.length === 0) {
@@ -37,10 +37,10 @@ export async function GET(
       questionId: quizAnswers.questionId,
       selectedOptionKey: quizAnswers.selectedOptionKey,
       isCorrect: quizAnswers.isCorrect,
-      answeredAt: quizAnswers.answeredAt
+      createdAt: quizAnswers.createdAt
     })
     .from(quizAnswers)
-    .where(eq(quizAnswers.historyId, historyId));
+    .where(eq(quizAnswers.sessionId, sessionId));
 
     // Get the questions
     const questionIds = answers.map(a => a.questionId);
@@ -63,7 +63,7 @@ export async function GET(
         quiz: quizRecord[0],
         answers: questionsWithAnswers,
         summary: {
-          totalQuestions: quizRecord[0].numberOfQuestions,
+          numberOfQuestions: quizRecord[0].numberOfQuestions,
           answered: answers.length,
           correct: answers.filter(a => a.isCorrect).length,
           score: quizRecord[0].score,

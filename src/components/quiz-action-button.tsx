@@ -20,13 +20,13 @@ export function QuizActionButton() {
   const pathname = usePathname();
   const params = useParams();
   const router = useRouter();
-  const historyId = parseInt(params.historyId as string);
+  const sessionId = parseInt(params.sessionId as string);
   const abandonMutation = useAbandonQuiz();
-  const isInQuiz = pathname.startsWith(`/quiz/${historyId}`) && !pathname.includes('/results');
+  const isInQuiz = pathname.startsWith(`/quiz/${sessionId}`) && !pathname.includes('/results');
   
   const handleAbandonQuiz = async () => {
     try {
-      await abandonMutation.mutateAsync({ historyId });
+      await abandonMutation.mutateAsync({ sessionId });
       router.push("/profile");
     } catch (error) {
       console.error("Failed to abandon quiz:", error);

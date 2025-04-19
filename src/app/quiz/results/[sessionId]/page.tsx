@@ -13,9 +13,9 @@ dayjs.extend(utc);
 export default function QuizResultsPage() {
   const params = useParams();
   const router = useRouter();
-  const historyId = parseInt(params.historyId as string);
+  const sessionId = parseInt(params.sessionId as string);
   
-  const { data: results, isLoading, error } = useQuizResults(historyId);
+  const { data: results, isLoading, error } = useQuizResults(sessionId);
   
   const handleStartNewQuiz = () => {
     router.push('/'); // Navigate to homepage or wherever your quiz starter is
@@ -26,9 +26,9 @@ export default function QuizResultsPage() {
   if (!results) return <div className="flex justify-center items-center min-h-screen">No results available</div>;
   
   const { quiz, summary } = results;
-  const scorePercentage = Math.round((summary.correct / summary.totalQuestions) * 100);
-  const completionTime = quiz.completedAt 
-    ? dayjs(quiz.completedAt).utc().format('MMM D, YYYY h:mm A')
+  const scorePercentage = Math.round((summary.correct / summary.numberOfQuestions) * 100);
+  const completionTime = quiz.updatedAt 
+    ? dayjs(quiz.updatedAt).utc().format('MMM D, YYYY h:mm A')
     : 'N/A';
   
   // Get feedback based on score
@@ -74,7 +74,7 @@ export default function QuizResultsPage() {
               <div className="text-center mt-8">
                 <div className="text-5xl font-bold">{scorePercentage}%</div>
                 <div className="text-sm text-muted-foreground mt-2">
-                  {summary.correct} of {summary.totalQuestions} correct
+                  {summary.correct} of {summary.numberOfQuestions} correct
                 </div>
               </div>
             </div>

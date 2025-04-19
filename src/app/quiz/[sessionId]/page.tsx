@@ -11,7 +11,7 @@ import { useAnswerQuestion} from "@/hooks/quiz/useQuizActions";
 export default function QuizSessionPage() {
   const params = useParams();
   const router = useRouter();
-  const historyId = parseInt(params.historyId as string);
+  const sessionId = parseInt(params.sessionId as string);
   
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
@@ -22,7 +22,7 @@ export default function QuizSessionPage() {
     data: questions, 
     isLoading, 
     error 
-  } = useQuizSessionQuestions(historyId);
+  } = useQuizSessionQuestions(sessionId);
   
   const answerMutation = useAnswerQuestion();
 
@@ -51,7 +51,7 @@ export default function QuizSessionPage() {
     
     try {
       const result = await answerMutation.mutateAsync({
-        historyId,
+        sessionId,
         questionId: questions![currentQuestion].id,
         selectedOptionKey: optionKey
       });
@@ -60,13 +60,13 @@ export default function QuizSessionPage() {
       setTimeout(() => {
         setFeedbackVisible(false);
         
-        if (result.quizComplete) {
-          router.push(`/quiz/results/${historyId}`);
+        if (result.createdAt) {
+          router.push(`/quiz/results/${sessionId}`);
         } else if (currentQuestion < questions!.length - 1) {
           setCurrentQuestion(prev => prev + 1);
           setSelectedOption(null);
         } else {
-          router.push(`/quiz/results/${historyId}`);
+          router.push(`/quiz/results/${sessionId}`);
         }
         
         setIsSubmitting(false);
