@@ -1,23 +1,23 @@
 import { db } from "@/db";
 import { NextRequest, NextResponse } from "next/server";
-import { quizHistory } from "@/db/schema";
+import { quizSession } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
 export async function POST(request: NextRequest) {
   try {
-    const { historyId } = await request.json();
+    const { sessionId } = await request.json();
 
-    if (!historyId) {
+    if (!sessionId) {
       return NextResponse.json({
         success: false,
-        error: "History ID is required",
+        error: "session ID is required",
       }, { status: 400 });
     }
 
     // Check if the quiz exists
     const quizRecord = await db.select()
-      .from(quizHistory)
-      .where(eq(quizHistory.id, historyId))
+      .from(quizSession)
+      .where(eq(quizSession.id, sessionId))
       .limit(1);
 
     if (quizRecord.length === 0) {
@@ -37,12 +37,12 @@ export async function POST(request: NextRequest) {
     }
 
     // Update the quiz status to 'abandoned'
-    await db.update(quizHistory)
+    await db.update(quizSession)
       .set({ 
         status: 'abandoned',
-        completedAt: new Date() 
+        updatedAt: new Date() 
       })
-      .where(eq(quizHistory.id, historyId));
+      .where(eq(quizSession.id, sessionId));
 
     return NextResponse.json({
       success: true,

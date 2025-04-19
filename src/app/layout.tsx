@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { ThemeToggle } from "@/components/theme-toggle/theme-toggle";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "HackOrda MVP",
@@ -41,6 +42,15 @@ export default function RootLayout({
                     </main>
                   </div>
                 </div>
+                <Toaster 
+                  position="top-right" 
+                  expand={false} 
+                  richColors 
+                  closeButton
+                  toastOptions={{
+                    duration: 4000,
+                  }}
+                />
               </SidebarProvider>
             </TanstackQueryProvider>
           </ThemeProvider>

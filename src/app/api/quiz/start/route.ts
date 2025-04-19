@@ -1,6 +1,6 @@
 import { db } from "@/db";
 import { NextRequest, NextResponse } from "next/server";
-import { quizHistory, questions } from "@/db/schema";
+import { quizSession, questions } from "@/db/schema";
 import { sql } from "drizzle-orm";
 
 // This endpoint creates a new quiz session
@@ -33,8 +33,8 @@ export async function POST(request: NextRequest) {
       }, { status: 404 });
     }
 
-    // Create a new quiz history record
-    const [newQuizHistory] = await db.insert(quizHistory)
+    // Create a new quiz session record
+    const [newquizSession] = await db.insert(quizSession)
       .values({
         userId,
         numberOfQuestions: questionIds.length,
@@ -43,12 +43,12 @@ export async function POST(request: NextRequest) {
         selectionCriteria: 'random',
         score: 0,
       })
-      .returning({ id: quizHistory.id });
+      .returning({ id: quizSession.id });
 
     return NextResponse.json({
       success: true,
       data: {
-        historyId: newQuizHistory.id,
+        sessionId: newquizSession.id,
         numberOfQuestions: questionIds.length,
       },
     });

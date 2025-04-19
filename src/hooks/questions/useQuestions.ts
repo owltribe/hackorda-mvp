@@ -26,13 +26,13 @@ export const useQuestions = (moduleId?: number) => {
 };
 
 // For quiz session questions
-export const useQuizSessionQuestions = (historyId?: number) => {
+export const useQuizSessionQuestions = (sessionId?: number) => {
   const getSessionQuestions = async (): Promise<Question[]> => {
-    if (!historyId) {
-      throw new Error("History ID is required");
+    if (!sessionId) {
+      throw new Error("session ID is required");
     }
 
-    const response = await fetch(`/api/quiz/${historyId}/questions`);
+    const response = await fetch(`/api/quiz/${sessionId}/questions`);
     if (!response.ok) {
       throw new Error("Failed to fetch quiz questions");
     }
@@ -47,9 +47,9 @@ export const useQuizSessionQuestions = (historyId?: number) => {
   };
   
   return useQuery<Question[], Error>({
-    queryKey: ["quiz-session", historyId],
+    queryKey: ["quiz-session", sessionId],
     queryFn: getSessionQuestions,
-    enabled: !!historyId, // Only run if historyId is provided
+    enabled: !!sessionId, // Only run if sessionId is provided
     refetchOnWindowFocus: false,
     refetchOnMount: false,
     refetchOnReconnect: false,

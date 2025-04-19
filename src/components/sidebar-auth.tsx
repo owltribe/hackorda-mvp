@@ -10,16 +10,18 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import useProfile from "@/hooks/useProfile"
+import { useUserProfile } from "@/hooks/user/useUserProfile"
 
 export function SidebarAuth() {
-  const { data, loading } = useProfile()
+  const { data: user, isLoading } = useUserProfile()
   
   return (
     <>
       <SignedIn>
-        {!loading && data?.user && (
-          <NavUser user={data.user} />
+        {isLoading ? (
+          <div className="p-4">Loading...</div>
+        ) : user && (
+          <NavUser user={user} />
         )}
       </SignedIn>
       
@@ -27,7 +29,7 @@ export function SidebarAuth() {
         <SidebarMenu>
           <SidebarMenuItem>
             <SignInButton mode="modal">
-              <SidebarMenuButton size="lg" className="bg-gray-200 hover:bg-gray-300 transition-all duration-300 cursor-pointer">
+              <SidebarMenuButton size="lg" className="border-y border-green-brand hover:bg-green-brand/10 transition-all duration-300 cursor-pointer">
                 <LogIn className="mr-2 h-4 w-4" />
                 <span>Sign In</span>
               </SidebarMenuButton>

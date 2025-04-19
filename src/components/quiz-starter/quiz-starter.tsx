@@ -6,7 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Label } from '@/components/ui/label';
 
 interface QuizStarterProps {
-  userId: number;
+  userId: string;
 }
 
 export function QuizStarter({ userId }: QuizStarterProps) {
@@ -23,8 +23,8 @@ export function QuizStarter({ userId }: QuizStarterProps) {
         numberOfQuestions: questionCount
       });
       
-      // Navigate to the quiz page with the history ID
-      router.push(`/quiz/${result.historyId}`);
+      // Navigate to the quiz page with the session ID
+      router.push(`/quiz/${result.sessionId}`);
     } catch (error) {
       console.error('Failed to start quiz:', error);
       setIsLoading(false);

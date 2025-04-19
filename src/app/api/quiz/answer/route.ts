@@ -1,23 +1,23 @@
 import { db } from "@/db";
 import { NextRequest, NextResponse } from "next/server";
-import { quizHistory, quizAnswers, questions } from "@/db/schema";
+import { quizSession, quizAnswers, questions } from "@/db/schema";
 import { eq, and, sql } from "drizzle-orm";
 
 export async function POST(request: NextRequest) {
   try {
-    const { historyId, questionId, selectedOptionKey } = await request.json();
+    const { sessionId, questionId, selectedOptionKey } = await request.json();
 
-    if (!historyId || !questionId || !selectedOptionKey) {
+    if (!sessionId || !questionId || !selectedOptionKey) {
       return NextResponse.json({
         success: false,
-        error: "Missing required fields: historyId, questionId, selectedOptionKey",
+        error: "Missing required fields: sessionId, questionId, selectedOptionKey",
       }, { status: 400 });
     }
 
     // Check if the quiz is still in progress
     const quizRecord = await db.select()
-      .from(quizHistory)
-      .where(eq(quizHistory.id, historyId))
+      .from(quizSession)
+      .where(eq(quizSession.id, sessionId))
       .limit(1);
 
     if (quizRecord.length === 0) {
@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
     // Record the answer
     await db.insert(quizAnswers)
       .values({
-        historyId,
+        sessionId,
         questionId, 
         selectedOptionKey,
         isCorrect,
@@ -61,7 +61,7 @@ export async function POST(request: NextRequest) {
     // Count total answered questions
     const answeredQuestions = await db.select({ count: sql`COUNT(*)` })
       .from(quizAnswers)
-      .where(eq(quizAnswers.historyId, historyId));
+      .where(eq(quizAnswers.sessionId, sessionId));
     
     const totalAnswered = Number(answeredQuestions[0]?.count || 0);
     const totalQuestions = quizRecord[0].questionIds.length;
@@ -74,20 +74,20 @@ export async function POST(request: NextRequest) {
       const correctAnswers = await db.select({ count: sql`COUNT(*)` })
         .from(quizAnswers)
         .where(and(
-          eq(quizAnswers.historyId, historyId),
+          eq(quizAnswers.sessionId, sessionId),
           eq(quizAnswers.isCorrect, true)
         ));
       
       const score = Number(correctAnswers[0]?.count || 0);
       
       // Update quiz record
-      await db.update(quizHistory)
+      await db.update(quizSession)
         .set({ 
           status: 'completed',
-          completedAt: new Date(),
+          updatedAt: new Date(),
           score: score
         })
-        .where(eq(quizHistory.id, historyId));
+        .where(eq(quizSession.id, sessionId));
       
       quizComplete = true;
     }
