@@ -60,7 +60,7 @@ export default function QuizSessionPage() {
       setTimeout(() => {
         setFeedbackVisible(false);
         
-        if (result.quizComplete) {
+        if (result.createdAt) {
           router.push(`/quiz/results/${sessionId}`);
         } else if (currentQuestion < questions!.length - 1) {
           setCurrentQuestion(prev => prev + 1);

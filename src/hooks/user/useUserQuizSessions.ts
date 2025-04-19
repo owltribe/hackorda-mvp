@@ -15,7 +15,9 @@ export const useUserQuizSessions = (userId?: string) => {
       try {
         const errorData = await response.json();
         errorMsg = errorData.error || errorMsg;
-      } catch (_) { /* Ignore parsing error */ }
+      } catch (error) {
+        console.error('Error parsing quiz session data:', error);
+      }
       throw new Error(errorMsg);
     }
     

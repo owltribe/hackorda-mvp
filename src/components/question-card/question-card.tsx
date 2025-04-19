@@ -29,9 +29,9 @@ export function QuestionCard({
           
           let buttonStyle = "";
           if (showFeedback && isSelected) {
-            buttonStyle = isCorrect ? "dark:bg-[#22D62B] hover:bg-[#22D62B]/80 text-white" : "dark:bg-[#CC3939] hover:bg-[#CC3939]/80 text-white";
+            buttonStyle = isCorrect ? "bg-green-500 dark:bg-green-500 text-white" : "bg-red-500 dark:bg-red-500 text-white";
           } else if (isSelected) {
-            buttonStyle = "border-2 border-[#79745c] dark:border-[#79745c]";
+            buttonStyle = "border-2 border-gray-500 dark:border-gray-500";
           }
           
           return (
@@ -39,7 +39,7 @@ export function QuestionCard({
               key={key}
               variant={isSelected && !showFeedback ? "default" : "outline"}
               className={cn(
-                "flex justify-between px-4 py-6 text-left w-full",
+                "flex justify-between px-4 py-6 text-left w-full cursor-pointer",
                 buttonStyle,
                 disabled && "opacity-80 cursor-not-allowed"
               )}

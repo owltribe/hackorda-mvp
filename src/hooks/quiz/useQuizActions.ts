@@ -52,7 +52,7 @@ export const useAnswerQuestion = () => {
     sessionId, 
     questionId, 
     selectedOptionKey 
-  }: AnswerQuestionArgs): Promise<any> => { // Define a more specific return type if known
+  }: AnswerQuestionArgs): Promise<QuizSession> => { // Define a more specific return type if known
     const response = await fetch('/api/quiz/answer', {
       method: 'POST',
       headers: {
@@ -85,7 +85,7 @@ export const useAbandonQuiz = () => {
   const queryClient = useQueryClient();
 
   // Mutation function for abandoning a quiz
-  const abandonQuizMutation = async ({ sessionId }: AbandonQuizArgs): Promise<any> => { // Define a more specific return type if known
+  const abandonQuizMutation = async ({ sessionId }: AbandonQuizArgs): Promise<void> => { // Define a more specific return type if known
     const response = await fetch('/api/quiz/abandon', {
       method: 'POST',
       headers: {

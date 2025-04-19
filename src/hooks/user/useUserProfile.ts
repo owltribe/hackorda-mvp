@@ -15,7 +15,9 @@ export const useUserProfile = () => {
       try {
         const errorData = await response.json();
         errorMsg = errorData.error || errorMsg;
-      } catch (_) { /* Ignore parsing error */ }
+      } catch (error) {
+        console.error('Error parsing user data:', error);
+      }
       throw new Error(errorMsg);
     }
     const userData = await response.json();

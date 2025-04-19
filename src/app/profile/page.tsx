@@ -9,7 +9,6 @@ import { BookOpen, Award, Calendar } from 'lucide-react';
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation";
 import { QuizSessionSummary } from "@/types"
-import { UserButton } from "@clerk/nextjs"
 import { toast } from "sonner";
 
 export default function ProfilePage() {
@@ -45,23 +44,7 @@ export default function ProfilePage() {
         },
       });
     }
-  }, [error]);
-
-  // // Handle auth toast - show only once
-  // useEffect(() => {
-  //   if (!isLoadingUser && !user && !authToastShown.current) {
-  //     authToastShown.current = true;
-  //     toast.error('Please sign in to continue', {
-  //       id: 'auth-required',
-  //       position: 'top-center',
-  //       duration: 5000,
-  //       action: {
-  //         label: 'Sign In',
-  //         onClick: () => router.push('/sign-in'),
-  //       },
-  //     });
-  //   }
-  // }, [isLoadingUser, user, router]);
+  }, [error, router]);
 
   const handleRowClick = (quiz: QuizSessionSummary) => {
     router.push(`/quiz/results/${quiz.id}`);
@@ -99,7 +82,7 @@ export default function ProfilePage() {
   const averagePercentage = totalQuizzes > 0 
     ? Math.round(percentageSum / totalQuizzes) 
     : 0;
-
+  
   return (  
     <section className="w-full space-y-4">
       <div className="flex flex-row items-center gap-4">

@@ -1,31 +1,20 @@
 "use client"
 
 import {
-  Bell,
-  ChevronsUpDown,
-  LogOut,
   User,
 } from "lucide-react"
 
 import {
-  Avatar,
-  AvatarFallback,
-} from "@/components/ui/avatar"
-import {
   DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  useSidebar,
 } from "@/components/ui/sidebar"
-import { useClerk, UserButton } from "@clerk/nextjs"
+import { UserButton } from "@clerk/nextjs"
 
 interface User {
   id: string;
@@ -39,9 +28,6 @@ export function NavUser({
 }: {
   user: User
 }) {
-  const { isMobile } = useSidebar()
-  const { signOut } = useClerk()
-  
   return (
     <SidebarMenu>
       <SidebarMenuItem>

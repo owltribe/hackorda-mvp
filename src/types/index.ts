@@ -79,7 +79,7 @@ export interface QuizResult {
 // Represents the data structure of an active quiz session, potentially returned by the start endpoint.
 // Used in: src/hooks/quiz/useQuizActions.ts (implicitly)
 export interface QuizSession {
-  id: number; // Session ID
+  sessionId: number; // Session ID
   userId: string;
   questionIds: number[]; // IDs of the questions selected for this session
   status: 'in-progress'; // Should be in-progress when started

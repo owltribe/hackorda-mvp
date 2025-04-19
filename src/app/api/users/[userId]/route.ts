@@ -1,16 +1,16 @@
 import { db } from "@/db";
 import { users } from "@/db/schema";
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import { eq } from "drizzle-orm";
 
 export async function GET(
-  request: Request,
-  { params }: { params: { userId: string } }
+  request: NextRequest,
+  context: { params: Promise<{ userId: string }> }
 ) {
   try {
-    // Get the userId from the authenticated session
-    const paramsData = await params;
+    // Await the params to get the userId
+    const { userId } = await context.params;
     const { userId: clerkUserId } = await auth();
 
     if (!clerkUserId) {
@@ -22,7 +22,7 @@ export async function GET(
 
     // For security, only allow users to fetch their own data
     // 'me' is a special case for getting current user
-    if (paramsData.userId !== 'me' && paramsData.userId !== clerkUserId) {
+    if (userId !== 'me' && userId !== clerkUserId) {
       return NextResponse.json({
         success: false,
         error: "Unauthorized access"
