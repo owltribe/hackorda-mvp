@@ -44,14 +44,14 @@ export default function QuizResultsPage() {
         <div className="flex flex-row justify-between">
           <Button 
             variant="outline" 
-            className="flex items-center gap-2"
+            className="flex items-center gap-2 hover:cursor-pointer"
             onClick={() => router.push('/profile')}
           >
             <ChevronLeft className="h-4 w-4" />
             Back to Profile
           </Button>
           <Button 
-            className="w-full sm:w-auto flex items-center gap-2"
+            className="w-full sm:w-auto flex hover:cursor-pointer items-center gap-2"
             onClick={handleStartNewQuiz}
           >
             <RotateCw className="h-4 w-4" />
