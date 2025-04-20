@@ -3,14 +3,16 @@
 import React from "react";
 import { QuizStarter } from "@/components/quiz-starter/quiz-starter";
 import { useUserProfile } from "@/hooks/user/useUserProfile";
+import { SkeletonStartQuiz } from "@/components/skeleton/skeleton-start-quiz";
+
 
 export default function QuizPage() {
   const { data: user, isLoading, error: fetchError } = useUserProfile();
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
-        Loading...
+      <div>
+        <SkeletonStartQuiz />
       </div>
     );
   }
