@@ -59,7 +59,7 @@ export function QuizStarter({ userId }: QuizStarterProps) {
         </div>
 
         <Button 
-          className="w-full" 
+          className="w-full hover:cursor-pointer" 
           onClick={handleStartQuiz} 
           disabled={isLoading}
           size="lg"
