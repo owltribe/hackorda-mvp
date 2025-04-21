@@ -47,7 +47,7 @@ export default function ProfilePage() {
   }, [error, router]);
 
   const handleRowClick = (quiz: QuizSessionSummary) => {
-    router.push(`/quiz/results/${quiz.id}`);
+    router.push(`/quiz/${quiz.id}/results`);
   };
 
   // Show loading state
@@ -105,7 +105,7 @@ export default function ProfilePage() {
             <div className="text-center py-8 text-muted-foreground border rounded-xl p-4">
               You haven&apos;t taken any quizzes yet.
               <div className="mt-4">
-                <Button onClick={() => router.push('/')}>
+                <Button onClick={() => router.push('/quiz')}>
                   Start a Quiz
                 </Button>
               </div>

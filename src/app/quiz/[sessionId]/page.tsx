@@ -61,12 +61,12 @@ export default function QuizSessionPage() {
         setFeedbackVisible(false);
         
         if (result.createdAt) {
-          router.push(`/quiz/results/${sessionId}`);
+          router.push(`/quiz/${sessionId}/results`);
         } else if (currentQuestion < questions!.length - 1) {
           setCurrentQuestion(prev => prev + 1);
           setSelectedOption(null);
         } else {
-          router.push(`/quiz/results/${sessionId}`);
+          router.push(`/quiz/${sessionId}/results`);
         }
         
         setIsSubmitting(false);
