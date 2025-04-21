@@ -29,10 +29,10 @@ export async function GET(
       }, { status: 403 });
     }
 
+    //TODO finish review
     // Fetch the user from your database using the clerkId
     const userList = await db.select({
       id: users.id,
-      clerkId: users.clerkId,
       firstName: users.firstName,
       lastName: users.lastName,
       email: users.email,

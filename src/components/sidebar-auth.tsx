@@ -3,25 +3,31 @@
 import {
   LogIn,
 } from "lucide-react"
-import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs"
+import { SignedIn, SignedOut, SignInButton, useUser } from "@clerk/nextjs"
 import { NavUser } from "@/components/nav-user"
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { useUserProfile } from "@/hooks/user/useUserProfile"
 
 export function SidebarAuth() {
-  const { data: user, isLoading } = useUserProfile()
+  const { user, isLoaded } = useUser()
   
   return (
     <>
       <SignedIn>
-        {isLoading ? (
-          <div className="p-4">Loading...</div>
-        ) : user && (
-          <NavUser user={user} />
+        {!isLoaded ? (
+          <div className="p-4">Loading user...</div>
+        ) : user ? (
+          <NavUser user={{
+            id: user.id,
+            firstName: user.firstName || '',
+            lastName: user.lastName || '',
+            email: user.primaryEmailAddress?.emailAddress || '',
+          }} />
+        ) : (
+          <div className="p-4">User not found.</div>
         )}
       </SignedIn>
       

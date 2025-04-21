@@ -2,14 +2,14 @@
 
 import React from "react";
 import { QuizStarter } from "@/components/quiz-starter/quiz-starter";
-import { useUserProfile } from "@/hooks/user/useUserProfile";
 import { SkeletonStartQuiz } from "@/components/skeleton/skeleton-start-quiz";
+import { useUser } from "@clerk/nextjs";
 
 
 export default function QuizPage() {
-  const { data: user, isLoading, error: fetchError } = useUserProfile();
+  const { user, isLoaded } = useUser();
 
-  if (isLoading) {
+  if (!isLoaded) {
     return (
       <div>
         <SkeletonStartQuiz />
@@ -17,10 +17,10 @@ export default function QuizPage() {
     );
   }
 
-  if (fetchError || !user) {
+  if (!user) {
     return (
       <div className="flex justify-center items-center min-h-screen text-red-500">
-        {fetchError ? `Error: ${fetchError.message}` : 'User not found. Please ensure you have created a user in the database.'}
+        {'User not authenticated. Please sign in.'}
       </div>
     );
   }
