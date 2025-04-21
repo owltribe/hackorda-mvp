@@ -11,12 +11,21 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
 
+const excludedPaths = [
+  "/sign-in",
+  "/sign-up",
+  "/quiz",
+  "/auth-callback", // Сюда закидываем исключения на которых не будет отображаться BreadCrumb (хлебные крошки)
+]
+
 export function BreadcrumbNav() {
   const pathname = usePathname()
 
+  if (excludedPaths.some(path => pathname.startsWith(path))) return null
+
   const pathSegments = pathname
     .split("/")
-    .filter(Boolean) // убираем пустые строки
+    .filter(Boolean) 
     .map((segment, index, array) => {
       const href = "/" + array.slice(0, index + 1).join("/")
       const isLast = index === array.length - 1
