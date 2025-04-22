@@ -23,18 +23,18 @@ export default function QuizResultsPage() {
     router.push('/quiz');
   };
 
-  useEffect(() => {
-    if (error || !results) {
-      const timer = setTimeout(() => {
-        router.push('/');
-        toast.error('Error loading quiz results.', {
-          description: 'Redirecting to home page...',
-          position: 'bottom-right',
-        });
-      }, 3000);
-      return () => clearTimeout(timer);
-    }
-  }, [error, router]);
+  // useEffect(() => {
+  //   if (error || !results) {
+  //     const timer = setTimeout(() => {
+  //       router.push('/');
+  //       toast.error('Error loading quiz results.', {
+  //         description: 'Redirecting to home page...',
+  //         position: 'bottom-right',
+  //       });
+  //     }, 3000);
+  //     return () => clearTimeout(timer);
+  //   }
+  // }, [error, router]);
 
   if (isLoading) {
     return (

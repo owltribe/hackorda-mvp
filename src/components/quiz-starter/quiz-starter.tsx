@@ -51,7 +51,7 @@ export function QuizStarter({ userId }: QuizStarterProps) {
               <SelectValue placeholder="Select number of questions" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="25">25 Questions</SelectItem>
+              <SelectItem value="3">3 Questions</SelectItem>
               <SelectItem value="50">50 Questions</SelectItem>
             </SelectContent>
           </Select>

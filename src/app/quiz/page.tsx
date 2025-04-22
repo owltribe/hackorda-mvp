@@ -15,18 +15,18 @@ export default function QuizPage() {
     error: userError 
   } = useUserProfile();
   
-  useEffect(() => {
-    if (!user || userError) {
-      const timer = setTimeout(() => {
-        router.push('/');
-        toast.error('Error loading quiz page.', {
-          description: 'Redirecting to home page...',
-          position: 'bottom-right',
-        });
-      }, 3000);
-      return () => clearTimeout(timer);
-    }
-  }, [user, userError, router]);
+  // useEffect(() => {
+  //   if (!user || userError) {
+  //     const timer = setTimeout(() => {
+  //       router.push('/');
+  //       toast.error('Error loading quiz page.', {
+  //         description: 'Redirecting to home page...',
+  //         position: 'bottom-right',
+  //       });
+  //     }, 3000);
+  //     return () => clearTimeout(timer);
+  //   }
+  // }, [user, userError, router]);
 
   if (isLoadingUser) {
     return (

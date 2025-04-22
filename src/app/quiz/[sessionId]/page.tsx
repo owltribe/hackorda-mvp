@@ -27,18 +27,18 @@ export default function QuizSessionPage() {
   
   const answerMutation = useAnswerQuestion();
 
-  useEffect(() => {
-    if (error || !questions || questions.length === 0) {
-      const timer = setTimeout(() => {
-        router.push('/');
-        toast.error('Error loading quiz session.', {
-          description: 'Redirecting to home page...',
-          position: 'bottom-right',
-        });
-      }, 3000);
-      return () => clearTimeout(timer);
-    }
-  }, [error, router]);
+  // useEffect(() => {
+  //   if (error || !questions || questions.length === 0) {
+  //     const timer = setTimeout(() => {
+  //       router.push('/');
+  //       toast.error('Error loading quiz session.', {
+  //         description: 'Redirecting to home page...',
+  //         position: 'bottom-right',
+  //       });
+  //     }, 3000);
+  //     return () => clearTimeout(timer);
+  //   }
+  // }, [error, router]);
 
   // Handle page refresh/close/navigation
   useEffect(() => {
