@@ -4,7 +4,6 @@ import * as React from "react"
 import {
   Home,
   User,
-  Command,
   Send,
   Trophy,
 } from "lucide-react"
@@ -20,12 +19,14 @@ import {
   SidebarGroup,
   SidebarGroupContent,
   useSidebar,
+  SidebarTrigger,
 } from "@/components/ui/sidebar"
 import { QuizActionButton } from "@/components/quiz-action-button"
 import { SidebarAuth } from "@/components/sidebar-auth"
 import Link from "next/link";
 import { usePathname, useParams } from "next/navigation";
 import { useEffect, useRef } from "react";
+import { ThemeToggle } from "./theme-toggle/theme-toggle";
 
 const navItems = [
   {
@@ -81,17 +82,11 @@ export function AppSidebar() {
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton size="lg" asChild>
-              <Link href="/">
-                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-green-brand text-black">
-                  <Command className="size-4" />
-                </div>
-                <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-semibold">HackOrda MVP</span>
-                  <span className="truncate text-xs">Phase 1</span>
-                </div>
-              </Link>
-            </SidebarMenuButton>
+            <div className="flex flex-row items-center gap-2">
+              <SidebarTrigger />
+              <span className="truncate text-sm text-green-brand">|</span>
+              <h3 className="truncate text-lg">hackorda.kz</h3>
+            </div>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
@@ -126,16 +121,19 @@ export function AppSidebar() {
           <SidebarGroup className="mt-auto">
             <SidebarGroupContent>
               <SidebarMenu>
-                {secondaryItems.map((item) => (
-                  <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild className="hover:bg-green-brand/10 py-5 dark:hover:bg-[#3a372b]">
-                      <Link href={item.url}>
-                        <item.icon />
-                        <span>{item.title}</span>
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
+                <div className="flex flex-row items-center gap-2">
+                  <ThemeToggle />
+                  {secondaryItems.map((item) => (
+                    <SidebarMenuItem key={item.title} className="flex-1">
+                      <SidebarMenuButton asChild className="w-full border border-gray py-4.5 hover:bg-green-brand/10 dark:hover:bg-green-brand/10">
+                        <Link href={item.url}>
+                          <item.icon />
+                          <span>{item.title}</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))}
+                </div>
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
