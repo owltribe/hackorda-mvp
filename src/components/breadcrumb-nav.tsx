@@ -44,7 +44,7 @@ export function BreadcrumbNav() {
 
         {pathSegments.map(({ href, label, isLast }) => (
           <div key={href} className="flex items-center">
-            <BreadcrumbSeparator />
+            <BreadcrumbSeparator className="mr-2"/>
             <BreadcrumbItem>
               {isLast ? (
                 <BreadcrumbPage>{label}</BreadcrumbPage>

@@ -27,8 +27,7 @@ export default function ProfilePage() {
     isLoading: isLoadingSessions, 
     error: sessionsError 
   } = useUserQuizSessions(user?.id);
-  
-  const isLoading = isLoadingUser || (!!user && isLoadingSessions);
+
   const error = userError || sessionsError;
 
   // Handle error toast - show only once
@@ -37,7 +36,7 @@ export default function ProfilePage() {
       errorToastShown.current = true;
       toast.error(`Error: ${error.message}`, {
         position: 'bottom-right',
-        duration: 5000,
+        duration: 15000,
         action: {
           label: 'Close',
           onClick: () => router.push('/sign-in'),
@@ -51,9 +50,10 @@ export default function ProfilePage() {
   };
 
   // Show loading state
-  if (isLoading) {
+  if (isLoadingUser) {
     return (
       <div className="flex justify-center items-center min-h-screen">
+        {/* TODO: Show profile skeleton */}
         <div className="animate-pulse">Loading profile data...</div>
       </div>
     );
@@ -63,12 +63,22 @@ export default function ProfilePage() {
   if (!user) {
     return (
       <div className="flex flex-col items-center justify-center h-screen space-y-4">
+        {/* TODO: redo*/}
         <h1 className="text-2xl font-bold">Show Welcome page</h1>
         <Button onClick={() => router.push('/sign-in')}>Sign In</Button>
       </div>
     );
   }
 
+  if (isLoadingSessions) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        {/* TODO: Show quiz sessions and stats skeleton */}
+        <div className="animate-pulse">Loading quiz sessions...</div> 
+      </div>
+    );
+  }
+  
   // Calculate stats from quiz session - Provide default empty array for recentQuizzes
   const quizzes = recentQuizzes ?? [];
   const totalQuizzes = quizzes.length;
