@@ -7,6 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { QuestionCard } from "@/components/question-card/question-card";
 import { useQuizSessionQuestions } from "@/hooks/questions/useQuestions";
 import { useAnswerQuestion} from "@/hooks/quiz/useQuizActions";
+import { toast } from "sonner";
 
 export default function QuizSessionPage() {
   const params = useParams();
@@ -17,7 +18,7 @@ export default function QuizSessionPage() {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [feedbackVisible, setFeedbackVisible] = useState(false);
-  
+
   const { 
     data: questions, 
     isLoading, 
@@ -25,6 +26,19 @@ export default function QuizSessionPage() {
   } = useQuizSessionQuestions(sessionId);
   
   const answerMutation = useAnswerQuestion();
+
+  useEffect(() => {
+    if (error || !questions || questions.length === 0) {
+      const timer = setTimeout(() => {
+        router.push('/');
+        toast.error('Error loading quiz session.', {
+          description: 'Redirecting to home page...',
+          position: 'bottom-right',
+        });
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [error, router]);
 
   // Handle page refresh/close/navigation
   useEffect(() => {
@@ -40,7 +54,6 @@ export default function QuizSessionPage() {
       window.removeEventListener('beforeunload', handleBeforeUnload);
     };
   }, []);
-
 
   const handleOptionSelect = async (optionKey: string) => {
     if (isSubmitting || feedbackVisible) return;
@@ -78,9 +91,22 @@ export default function QuizSessionPage() {
     }
   };
 
-  if (isLoading) return <div className="flex justify-center items-center min-h-screen">Loading quiz questions...</div>;
-  if (error) return <div className="flex justify-center items-center min-h-screen">Error loading quiz: {error.message}</div>;
-  if (!questions || questions.length === 0) return <div className="flex justify-center items-center min-h-screen">No questions available</div>;
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        Loading quiz questions...
+      </div>
+    );
+  }
+
+  if (error) {
+    console.log("Error loading quiz: ", error);
+  }
+  
+  if (!questions || questions.length === 0) {
+    console.log("No questions available: ", questions);
+    return
+  }
 
   const totalQuestions = questions.length;
   const progress = ((currentQuestion + 1) / totalQuestions) * 100;

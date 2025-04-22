@@ -7,6 +7,9 @@ import { Progress } from "@/components/ui/progress";
 import { CheckCircle, XCircle, Award, Clock, ChevronLeft, RotateCw } from "lucide-react";
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
+import { useEffect } from "react";
+import { notFound } from "next/navigation";
+import { toast } from "sonner";
 
 dayjs.extend(utc);
 
@@ -14,16 +17,41 @@ export default function QuizResultsPage() {
   const params = useParams();
   const router = useRouter();
   const sessionId = parseInt(params.sessionId as string);
-  
   const { data: results, isLoading, error } = useQuizResults(sessionId);
-  
+
   const handleStartNewQuiz = () => {
     router.push('/quiz');
   };
-  
-  if (isLoading) return <div className="flex justify-center items-center min-h-screen">Loading quiz results...</div>;
-  if (error) return <div className="flex justify-center items-center min-h-screen">Error loading results: {error.message}</div>;
-  if (!results) return <div className="flex justify-center items-center min-h-screen">No results available</div>;
+
+  useEffect(() => {
+    if (error || !results) {
+      const timer = setTimeout(() => {
+        router.push('/');
+        toast.error('Error loading quiz results.', {
+          description: 'Redirecting to home page...',
+          position: 'bottom-right',
+        });
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [error, router]);
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        Loading quiz results...
+      </div>
+    );
+  }
+
+  if (error) {
+    console.log("Error loading quiz results: ", error);
+  }
+
+  if (!results) {
+    console.log("No results available: ", results);
+    return
+  }
   
   const { quiz, summary } = results;
   const scorePercentage = Math.round((summary.correct / summary.numberOfQuestions) * 100);

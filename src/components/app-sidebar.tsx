@@ -76,7 +76,9 @@ export function AppSidebar() {
             <div className="flex flex-row items-center gap-2">
               <SidebarTrigger variant="outline" />
               <span className="truncate text-sm text-green-brand">|</span>
-              <h3 className="truncate text-lg">hackorda.kz</h3>
+              <a href="/" className="hover:text-green-brand/90 truncate">
+                <h3 className="text-lg">hackorda.kz</h3>
+              </a>
             </div>
           </SidebarMenuItem>
         </SidebarMenu>

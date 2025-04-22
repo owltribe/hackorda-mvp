@@ -1,14 +1,34 @@
 'use client';
 
-import React from "react";
+import React, { useEffect } from "react";
 import { QuizStarter } from "@/components/quiz-starter/quiz-starter";
 import { SkeletonStartQuiz } from "@/components/skeleton/skeleton-start-quiz";
 import { useUserProfile } from "@/hooks/user/useUserProfile";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export default function QuizPage() {
-  const { data: user, isLoading, error: fetchError } = useUserProfile();
+  const router = useRouter();
+  const { 
+    data: user, 
+    isLoading: isLoadingUser, 
+    error: userError 
+  } = useUserProfile();
+  
+  useEffect(() => {
+    if (!user || userError) {
+      const timer = setTimeout(() => {
+        router.push('/');
+        toast.error('Error loading quiz page.', {
+          description: 'Redirecting to home page...',
+          position: 'bottom-right',
+        });
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [user, userError, router]);
 
-  if (isLoading) {
+  if (isLoadingUser) {
     return (
       <div>
         <SkeletonStartQuiz />
@@ -16,14 +36,16 @@ export default function QuizPage() {
     );
   }
 
-  if (fetchError || !user) {
-    return (
-      <div className="flex justify-center items-center min-h-screen text-red-500">
-        {fetchError ? `Error: ${fetchError.message}` : 'User not found. Please ensure you have created a user in the database.'}
-      </div>
-    );
+  if (userError) {
+    console.log("Error loading user: ", userError);
+    return null
   }
 
+  if (!user) {
+    console.log("No user available: ", user);
+    return null
+  }
+  
   return (
     <div className="container mx-auto py-10 px-4">
       <div className="mx-auto max-w-4xl">

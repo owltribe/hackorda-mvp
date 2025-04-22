@@ -11,7 +11,7 @@ export const useStartQuiz = () => {
   const startQuizMutation = async ({ 
     userId, 
     moduleId, 
-    numberOfQuestions = 3 
+    numberOfQuestions = 25 
   }: StartQuizArgs): Promise<QuizSession> => { // Return type assumed as QuizSession
     const response = await fetch('/api/quiz/start', {
       method: 'POST',
