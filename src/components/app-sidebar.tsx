@@ -4,7 +4,6 @@ import * as React from "react"
 import {
   Home,
   User,
-  Send,
   Trophy,
 } from "lucide-react"
 
