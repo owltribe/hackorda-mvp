@@ -11,7 +11,7 @@ interface QuizStarterProps {
 
 export function QuizStarter({ userId }: QuizStarterProps) {
   const router = useRouter();
-  const [questionCount, setQuestionCount] = useState(5);
+  const [questionCount, setQuestionCount] = useState(25);
   const [isLoading, setIsLoading] = useState(false);
   const startQuizMutation = useStartQuiz();
   
@@ -51,9 +51,8 @@ export function QuizStarter({ userId }: QuizStarterProps) {
               <SelectValue placeholder="Select number of questions" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="5">5 Questions</SelectItem>
-              <SelectItem value="10">10 Questions</SelectItem>
-              <SelectItem value="20">20 Questions</SelectItem>
+              <SelectItem value="25">25 Questions</SelectItem>
+              <SelectItem value="50">50 Questions</SelectItem>
             </SelectContent>
           </Select>
         </div>

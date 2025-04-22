@@ -31,7 +31,7 @@ export default function RootLayout({
             <TanstackQueryProvider>
               <SignedIn>
                 <SidebarProvider>
-                  <div className="relative flex h-screen w-full mx-2">
+                  <div className="flex h-screen w-full mx-2">
                     <AppSidebar />
                     <div className="flex-1 flex flex-col w-full mb-2 mr-2">
                       <header className="sticky top-2 z-10 flex items-center py-2 shrink-0">

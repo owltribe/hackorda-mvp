@@ -47,14 +47,6 @@ const navItems = [
   },
 ];
 
-const secondaryItems = [
-  {
-    title: "Feedback",
-    url: "#",
-    icon: Send,
-  }
-];
-
 export function AppSidebar() {
   const pathname = usePathname();
   const params = useParams();
@@ -83,7 +75,7 @@ export function AppSidebar() {
         <SidebarMenu>
           <SidebarMenuItem>
             <div className="flex flex-row items-center gap-2">
-              <SidebarTrigger />
+              <SidebarTrigger variant="outline" />
               <span className="truncate text-sm text-green-brand">|</span>
               <h3 className="truncate text-lg">hackorda.kz</h3>
             </div>
@@ -121,18 +113,8 @@ export function AppSidebar() {
           <SidebarGroup className="mt-auto">
             <SidebarGroupContent>
               <SidebarMenu>
-                <div className="flex flex-row items-center gap-2">
+                <div className="flex flex-row items-center">
                   <ThemeToggle />
-                  {secondaryItems.map((item) => (
-                    <SidebarMenuItem key={item.title} className="flex-1">
-                      <SidebarMenuButton asChild className="w-full border border-gray py-4.5 hover:bg-green-brand/10 dark:hover:bg-green-brand/10">
-                        <Link href={item.url}>
-                          <item.icon />
-                          <span>{item.title}</span>
-                        </Link>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  ))}
                 </div>
               </SidebarMenu>
             </SidebarGroupContent>
