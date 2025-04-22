@@ -44,3 +44,4 @@ next-env.d.ts
 /.clerk/
 devtx_questions_343.csv
 devtx_questions_28.csv
+ca-certificate.crt

@@ -18,7 +18,7 @@ export default function QuizResultsPage() {
   const { data: results, isLoading, error } = useQuizResults(sessionId);
   
   const handleStartNewQuiz = () => {
-    router.push('/'); // Navigate to homepage or wherever your quiz starter is
+    router.push('/quiz');
   };
   
   if (isLoading) return <div className="flex justify-center items-center min-h-screen">Loading quiz results...</div>;
