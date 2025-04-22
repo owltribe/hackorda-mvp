@@ -3,6 +3,17 @@ import { QuizSession, StartQuizArgs, AnswerQuestionArgs, AbandonQuizArgs } from 
 
 // TODO: separate hooks (keeping as is for now based on user request)
 
+// Define the expected data structure from the answer API response
+interface AnswerResponseData {
+  isCorrect: boolean;
+  quizComplete: boolean;
+  progress: {
+    answered: number;
+    total: number;
+    percentage: number;
+  };
+}
+
 // Hook for starting a new quiz
 export const useStartQuiz = () => {
   const queryClient = useQueryClient();
@@ -52,7 +63,7 @@ export const useAnswerQuestion = () => {
     sessionId, 
     questionId, 
     selectedOptionKey 
-  }: AnswerQuestionArgs): Promise<QuizSession> => { // Define a more specific return type if known
+  }: AnswerQuestionArgs): Promise<AnswerResponseData> => { // Update return type
     const response = await fetch('/api/quiz/answer', {
       method: 'POST',
       headers: {
@@ -72,10 +83,10 @@ export const useAnswerQuestion = () => {
       throw new Error(data.error || 'Failed to record answer');
     }
     
-    return data.data; // Assuming API returns { success: bool, data: any, error?: string }
+    return data.data; // Assuming API returns { success: bool, data: AnswerResponseData, error?: string }
   };
   
-  return useMutation({
+  return useMutation<AnswerResponseData, Error, AnswerQuestionArgs>({ // Update mutation type
     mutationFn: answerQuestionMutation, // Call the named function
   });
 };

@@ -30,23 +30,27 @@ export default function ProfilePage() {
 
   const error = userError || sessionsError;
 
-  // Handle error toast - show only once
-  useEffect(() => {
-    if (error && !errorToastShown.current) {
-      errorToastShown.current = true;
-      toast.error(`Error: ${error.message}`, {
-        position: 'bottom-right',
-        duration: 15000,
-        action: {
-          label: 'Close',
-          onClick: () => router.push('/sign-in'),
-        },
-      });
-    }
-  }, [error, router]);
+  // // Handle error toast - show only once
+  // useEffect(() => {
+  //   if (error && !errorToastShown.current) {
+  //     errorToastShown.current = true;
+  //     toast.error(`Error: ${error.message}`, {
+  //       position: 'bottom-right',
+  //       duration: 15000,
+  //       action: {
+  //         label: 'Close',
+  //         onClick: () => router.push('/sign-in'),
+  //       },
+  //     });
+  //   }
+  // }, [error, router]);
 
   const handleRowClick = (quiz: QuizSessionSummary) => {
-    router.push(`/quiz/${quiz.id}/results`);
+    if (quiz.status === 'in_progress') {
+      router.push(`/quiz/${quiz.id}`); // Go to the active quiz page
+    } else {
+      router.push(`/quiz/${quiz.id}/results`); // Go to results for completed/abandoned
+    }
   };
 
   // Show loading state

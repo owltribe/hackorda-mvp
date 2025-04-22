@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
       }, { status: 400 });
     }
 
-    // Check if the quiz is still in progress
+    // Check if the quiz is still in progress (and exists)
     const quizRecord = await db.select()
       .from(quizSession)
       .where(eq(quizSession.id, sessionId))
@@ -48,12 +48,12 @@ export async function POST(request: NextRequest) {
     }
 
     const isCorrect = selectedOptionKey === questionRecord[0].correctOptionKey;
-
+  
     // Record the answer
     await db.insert(quizAnswers)
       .values({
         sessionId,
-        questionId, 
+        questionId,
         selectedOptionKey,
         isCorrect,
       });
@@ -62,35 +62,39 @@ export async function POST(request: NextRequest) {
     const answeredQuestions = await db.select({ count: sql`COUNT(*)` })
       .from(quizAnswers)
       .where(eq(quizAnswers.sessionId, sessionId));
-    
+
     const totalAnswered = Number(answeredQuestions[0]?.count || 0);
     const totalQuestions = quizRecord[0].questionIds.length;
-    
+
+    // Calculate the current score regardless of completion status
+    const correctAnswers = await db.select({ count: sql`COUNT(*)` })
+      .from(quizAnswers)
+      .where(and(
+        eq(quizAnswers.sessionId, sessionId),
+        eq(quizAnswers.isCorrect, true)
+      ));
+    const score = Number(correctAnswers[0]?.count || 0);
+    console.log("correctAnswers: ", correctAnswers); // Keep logs if needed
+    console.log("score: ", score); // Keep logs if needed
+
+    // Prepare data for update
+    const updateData: Partial<typeof quizSession.$inferInsert> = {
+      score: score, // Always update score
+      updatedAt: new Date(), // Always update timestamp
+    };
+
     let quizComplete = false;
-    
-    // If all questions are answered, update the quiz status and calculate the score
+
+    // If all questions are answered, add status to the update data
     if (totalAnswered >= totalQuestions) {
-      // Count correct answers
-      const correctAnswers = await db.select({ count: sql`COUNT(*)` })
-        .from(quizAnswers)
-        .where(and(
-          eq(quizAnswers.sessionId, sessionId),
-          eq(quizAnswers.isCorrect, true)
-        ));
-      
-      const score = Number(correctAnswers[0]?.count || 0);
-      
-      // Update quiz record
-      await db.update(quizSession)
-        .set({ 
-          status: 'completed',
-          updatedAt: new Date(),
-          score: score
-        })
-        .where(eq(quizSession.id, sessionId));
-      
       quizComplete = true;
+      updateData.status = 'completed';
     }
+
+    // Single update call
+    await db.update(quizSession)
+      .set(updateData)
+      .where(eq(quizSession.id, sessionId));
 
     return NextResponse.json({
       success: true,
@@ -100,7 +104,7 @@ export async function POST(request: NextRequest) {
         progress: {
           answered: totalAnswered,
           total: totalQuestions,
-          percentage: Math.round((totalAnswered / totalQuestions) * 100)
+          percentage: totalQuestions > 0 ? Math.round((totalAnswered / totalQuestions) * 100) : 0
         }
       },
     });

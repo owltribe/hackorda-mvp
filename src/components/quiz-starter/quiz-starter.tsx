@@ -11,7 +11,7 @@ interface QuizStarterProps {
 
 export function QuizStarter({ userId }: QuizStarterProps) {
   const router = useRouter();
-  const [questionCount, setQuestionCount] = useState(25);
+  const [questionCount, setQuestionCount] = useState(3);
   const [isLoading, setIsLoading] = useState(false);
   const startQuizMutation = useStartQuiz();
   
