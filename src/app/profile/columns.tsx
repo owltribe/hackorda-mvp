@@ -5,7 +5,7 @@ import { QuizSessionSummary } from "@/types" // Import the type for quiz data
 import { Badge } from "@/components/ui/badge"
 import { ArrowUpDown } from "lucide-react" // For sorting indicator
 import { Button } from "@/components/ui/button" // For sortable header button
-import { useRouter } from "next/navigation"
+
 // Helper function to format the date
 const formatDate = (dateString: string) => {
   return new Date(dateString).toLocaleString(); 

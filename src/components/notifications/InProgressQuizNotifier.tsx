@@ -9,13 +9,18 @@ export const InProgressQuizNotifier: React.FC = () => {
   const router = useRouter();
   const { data: inProgressSession, isLoading } = useInProgressQuizSession();
   const toastIdRef = useRef<string | number | null>(null); // To track the toast
+  // const pathname = usePathname();
+  // const params = useParams();
+  // const sessionId = parseInt(params.sessionId as string);
+  // const isInQuiz = pathname.startsWith(`/quiz/${sessionId}`) && !pathname.includes('/results') && pathname !== '/quiz';
+  // const isInResults = pathname.startsWith(`/quiz/${sessionId}/results`);
 
   useEffect(() => {
     // Don't do anything while loading
     if (isLoading) {
-      return;
+      return
     }
-
+    
     if (inProgressSession) {
       // Only show toast if it's not already shown for this specific session ID
       // (or if no toast is currently shown)

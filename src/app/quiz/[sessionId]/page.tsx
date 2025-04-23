@@ -6,8 +6,8 @@ import { Progress } from "@/components/ui/progress";
 import { Card, CardContent } from "@/components/ui/card";
 import { QuestionCard } from "@/components/question-card/question-card";
 import { useQuizSessionQuestions } from "@/hooks/questions/useQuestions";
-import { useAnswerQuestion} from "@/hooks/quiz/useQuizActions";
-import { toast } from "sonner";
+import { useAnswerQuestion } from "@/hooks/quiz/useAnswerQuestion";
+import Link from "next/link";
 
 export default function QuizSessionPage() {
   const params = useParams();
@@ -41,6 +41,7 @@ export default function QuizSessionPage() {
   // }, [error, router]);
 
   // Handle page refresh/close/navigation
+
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
       const message = "You are in the middle of a quiz. Are you sure you want to leave? Your progress will be lost.";
@@ -62,7 +63,7 @@ export default function QuizSessionPage() {
       
       if (initialIndex === -1) {
         // All questions answered or quiz completed/invalid according to backend
-        toast.info("Quiz already completed or has no unanswered questions.", { description: "Redirecting to results..." });
+        // toast.info("Quiz already completed or has no unanswered questions.", { description: "Redirecting to results..." });
         router.push(`/quiz/${sessionId}/results`);
       } else {
         setCurrentQuestionIndex(initialIndex);
@@ -70,7 +71,7 @@ export default function QuizSessionPage() {
     }
     // Add a check for error state as well
     else if (error) {
-       toast.error(`Error loading quiz state: ${error.message}`);
+      //  toast.error(`Error loading quiz state: ${error.message}`);
        // Potentially redirect to home or profile after error
        // router.push('/'); 
     }
@@ -116,23 +117,25 @@ export default function QuizSessionPage() {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
-        Loading quiz questions...
+      <div className="flex justify-center items-center h-full text-2xl text-green-brand">
+        <p className="animate-pulse">Loading quiz questions...</p>
       </div>
     );
   }
 
   if (error) {
     console.log("Error loading quiz: ", error);
-    // Error handled in useEffect, maybe return a generic message here
-    return <div className="flex justify-center items-center min-h-screen">Error loading quiz data.</div>;
+    return (
+      <div className="flex text-2xl text-muted-foreground">
+        <p>Cannot find such quiz. Redirect to <Link href="/" className="text-green-brand hover:text-green-brand underline animate-pulse">home</Link> page...</p>
+      </div>
+    );  
   }
   
-  // Wait until the initial question index is determined and valid
   if (currentQuestionIndex === null || !questionsData || questionsData.questions.length === 0) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
-        Determining next question...
+      <div className="flex text-2xl text-muted-foreground">
+        <p>Cannot find such quiz. Redirect to <Link href="/" className="text-green-brand hover:text-green-brand underline animate-pulse">home</Link> page...</p>
       </div>
     );
   }

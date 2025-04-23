@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect, useRef } from "react"
+import React from "react"
 import { useUserProfile } from "@/hooks/user/useUserProfile"
 import { useUserQuizSessions } from "@/hooks/user/useUserQuizSessions"
 import { columns } from "./columns"
@@ -9,11 +9,10 @@ import { BookOpen, Award, Calendar } from 'lucide-react';
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation";
 import { QuizSessionSummary } from "@/types"
-import { toast } from "sonner";
+import { InProgressQuizNotifier } from "@/components/notifications/InProgressQuizNotifier";
 
 export default function ProfilePage() {
   const router = useRouter();
-  const errorToastShown = useRef(false);
   
   const { 
     data: user, 
@@ -27,8 +26,6 @@ export default function ProfilePage() {
     isLoading: isLoadingSessions, 
     error: sessionsError 
   } = useUserQuizSessions(user?.id);
-
-  const error = userError || sessionsError;
 
   // // Handle error toast - show only once
   // useEffect(() => {
@@ -56,28 +53,32 @@ export default function ProfilePage() {
   // Show loading state
   if (isLoadingUser) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
-        {/* TODO: Show profile skeleton */}
-        <div className="animate-pulse">Loading profile data...</div>
+      <div className="flex text-2xl text-green-brand">
+        <p className="animate-pulse">Loading user profile...</p>
+      </div>
+    );
+  }
+
+  if (isLoadingSessions) {
+    return (
+      <div className="flex text-2xl text-green-brand">
+        <p className="animate-pulse"> Loading quiz sessions...</p>
       </div>
     );
   }
 
   // Handle unauthenticated state
-  if (!user) {
+  if (userError || !user) {
+    console.log("Error loading user profile: ", userError);
     console.log("No user available: ", user);
-    return null
+    return
   }
 
-  if (isLoadingSessions) {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        {/* TODO: Show quiz sessions and stats skeleton */}
-        <div className="animate-pulse">Loading quiz sessions...</div> 
-      </div>
-    );
+  if (sessionsError) {
+    console.log("Error loading quiz sessions: ", sessionsError);
+    return
   }
-  
+
   // Calculate stats from quiz session - Provide default empty array for recentQuizzes
   const quizzes = recentQuizzes ?? [];
   const totalQuizzes = quizzes.length;
@@ -94,6 +95,8 @@ export default function ProfilePage() {
   
   return (  
     <section className="w-full space-y-4">
+      <InProgressQuizNotifier />
+
       <div className="flex flex-row items-center gap-4">
         <div className="flex flex-col">
           <h1 className="text-2xl font-bold">{user.firstName || 'Student'} {user.lastName || 'Student'}</h1>

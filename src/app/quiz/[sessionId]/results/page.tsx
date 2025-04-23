@@ -7,9 +7,7 @@ import { Progress } from "@/components/ui/progress";
 import { CheckCircle, XCircle, Award, Clock, ChevronLeft, RotateCw } from "lucide-react";
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
-import { useEffect } from "react";
-import { notFound } from "next/navigation";
-import { toast } from "sonner";
+import Link from "next/link";
 
 dayjs.extend(utc);
 
@@ -24,10 +22,10 @@ export default function QuizResultsPage() {
   };
 
   // useEffect(() => {
-  //   if (error || !results) {
+  //   if (!results) {
   //     const timer = setTimeout(() => {
   //       router.push('/');
-  //       toast.error('Error loading quiz results.', {
+  //       toast.warning('Cannot find such results.', {
   //         description: 'Redirecting to home page...',
   //         position: 'bottom-right',
   //       });
@@ -38,19 +36,28 @@ export default function QuizResultsPage() {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
-        Loading quiz results...
+      <div className="flex text-md text-green-brand">
+        <p className="animate-pulse">Loading quiz results...</p>
+      </div>
+    );
+  }
+
+  if (!results) {
+    console.log("Error loading quiz results: ", error);
+    return (
+      <div className="flex text-md text-muted-foreground">
+        <p>Cannot find such results. Redirect to <Link href="/" className="text-green-brand hover:text-green-brand underline animate-pulse">home</Link> page...</p>
       </div>
     );
   }
 
   if (error) {
-    console.log("Error loading quiz results: ", error);
-  }
-
-  if (!results) {
-    console.log("No results available: ", results);
-    return
+    console.log("Something went wrong: ", error);
+    return (
+      <div className="flex text-md text-muted-foreground">
+        <p>Something went wrong. Redirect to <Link href="/" className="text-green-brand hover:text-green-brand underline animate-pulse">home</Link> page...</p>
+      </div>
+    );
   }
   
   const { quiz, summary } = results;

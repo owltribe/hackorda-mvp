@@ -7,7 +7,6 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { Toaster } from "sonner";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav"
-import { InProgressQuizNotifier } from "@/components/notifications/InProgressQuizNotifier";
 
 export const metadata: Metadata = {
   title: "HackOrda MVP",
@@ -32,7 +31,6 @@ export default function RootLayout({
             <TanstackQueryProvider>
               <SignedIn>
                 <SidebarProvider>
-                  <InProgressQuizNotifier />
                   <div className="flex h-screen w-full mx-2">
                     <AppSidebar />
                     <div className="flex-1 flex flex-col w-full mb-2 mr-2">
@@ -45,13 +43,9 @@ export default function RootLayout({
                     </div>
                   </div>  
                   <Toaster 
-                    position="top-right" 
                     expand={false} 
                     richColors 
                     closeButton
-                    toastOptions={{
-                      duration: 4000,
-                    }}
                   />
                 </SidebarProvider>
               </SignedIn>

@@ -23,7 +23,9 @@ export const useQuizSessionQuestions = (sessionId?: number) => {
       try {
         const errorData = await response.json();
         errorMsg = errorData.error || errorMsg;
-      } catch (parseError) { /* Ignore parsing error */ }
+      } catch (parseError) {
+        console.error("Error parsing error response: ", parseError);
+      }
       throw new Error(errorMsg);
     }
     

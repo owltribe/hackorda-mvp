@@ -1,20 +1,19 @@
 import { db } from "@/db";
 import { quizSession, users } from "@/db/schema";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { eq, and } from "drizzle-orm";
 import { auth } from "@clerk/nextjs/server";
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     const { userId: clerkUserId } = await auth();
 
     if (!clerkUserId) {
       return NextResponse.json(
         { success: false, error: "User not authenticated" },
-        { status: 401 }
+        { status: 401 } 
       );
     }
-    console.log("clerkUserId: ", clerkUserId);
 
     // 1. Find the internal user ID using the clerkUserId
     const [internalUser] = await db

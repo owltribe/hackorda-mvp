@@ -14,7 +14,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { useAbandonQuiz } from "@/hooks/quiz/useQuizActions";
+import { useAbandonQuiz } from "@/hooks/quiz/useAbandonQuiz";
 
 export function QuizActionButton() {
   const pathname = usePathname();

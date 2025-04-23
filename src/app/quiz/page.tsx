@@ -1,14 +1,12 @@
 'use client';
 
-import React, { useEffect } from "react";
+import React from "react";
 import { QuizStarter } from "@/components/quiz-starter/quiz-starter";
 import { SkeletonStartQuiz } from "@/components/skeleton/skeleton-start-quiz";
 import { useUserProfile } from "@/hooks/user/useUserProfile";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
+import Link from "next/link";
 
 export default function QuizPage() {
-  const router = useRouter();
   const { 
     data: user, 
     isLoading: isLoadingUser, 
@@ -38,12 +36,20 @@ export default function QuizPage() {
 
   if (userError) {
     console.log("Error loading user: ", userError);
-    return null
+    return (
+      <div className="flex text-2xl text-muted-foreground">
+        <p>Cannot find such user. Redirect to <Link href="/" className="text-green-brand hover:text-green-brand underline animate-pulse">home</Link> page...</p>
+      </div>
+    );
   }
 
   if (!user) {
     console.log("No user available: ", user);
-    return null
+    return (
+      <div className="flex text-2xl text-muted-foreground">
+        <p>Cannot find such user. Redirect to <Link href="/" className="text-green-brand hover:text-green-brand underline animate-pulse">home</Link> page...</p>
+      </div>
+    );
   }
   
   return (
