@@ -6,27 +6,42 @@ import { Progress } from "@/components/ui/progress";
 import { Card, CardContent } from "@/components/ui/card";
 import { QuestionCard } from "@/components/question-card/question-card";
 import { useQuizSessionQuestions } from "@/hooks/questions/useQuestions";
-import { useAnswerQuestion} from "@/hooks/quiz/useQuizActions";
+import { useAnswerQuestion } from "@/hooks/quiz/useAnswerQuestion";
+import Link from "next/link";
 
 export default function QuizSessionPage() {
   const params = useParams();
   const router = useRouter();
   const sessionId = parseInt(params.sessionId as string);
   
-  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number | null>(null);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [feedbackVisible, setFeedbackVisible] = useState(false);
-  
+
   const { 
-    data: questions, 
+    data: questionsData, 
     isLoading, 
     error 
   } = useQuizSessionQuestions(sessionId);
   
   const answerMutation = useAnswerQuestion();
 
+  // useEffect(() => {
+  //   if (error || !questionsData || questionsData.questions.length === 0) {
+  //     const timer = setTimeout(() => {
+  //       router.push('/');
+  //       toast.error('Error loading quiz session.', {
+  //         description: 'Redirecting to home page...',
+  //         position: 'bottom-right',
+  //       });
+  //     }, 3000);
+  //     return () => clearTimeout(timer);
+  //   }
+  // }, [error, router]);
+
   // Handle page refresh/close/navigation
+
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
       const message = "You are in the middle of a quiz. Are you sure you want to leave? Your progress will be lost.";
@@ -41,6 +56,27 @@ export default function QuizSessionPage() {
     };
   }, []);
 
+  // Effect to set the initial question index from the hook data
+  useEffect(() => {
+    if (questionsData && questionsData.firstUnansweredIndex !== undefined) {
+      const initialIndex = questionsData.firstUnansweredIndex;
+      
+      if (initialIndex === -1) {
+        // All questions answered or quiz completed/invalid according to backend
+        // toast.info("Quiz already completed or has no unanswered questions.", { description: "Redirecting to results..." });
+        router.push(`/quiz/${sessionId}/results`);
+      } else {
+        setCurrentQuestionIndex(initialIndex);
+      }
+    }
+    // Add a check for error state as well
+    else if (error) {
+      //  toast.error(`Error loading quiz state: ${error.message}`);
+       // Potentially redirect to home or profile after error
+       // router.push('/'); 
+    }
+
+  }, [questionsData, error, router, sessionId]); // Add error to dependencies
 
   const handleOptionSelect = async (optionKey: string) => {
     if (isSubmitting || feedbackVisible) return;
@@ -52,7 +88,7 @@ export default function QuizSessionPage() {
     try {
       const result = await answerMutation.mutateAsync({
         sessionId,
-        questionId: questions![currentQuestion].id,
+        questionId: questionsData!.questions[currentQuestionIndex!].id,
         selectedOptionKey: optionKey
       });
       
@@ -60,17 +96,18 @@ export default function QuizSessionPage() {
       setTimeout(() => {
         setFeedbackVisible(false);
         
-        if (result.createdAt) {
+        if (result.quizComplete) { // Check the quizComplete flag from API response
           router.push(`/quiz/${sessionId}/results`);
-        } else if (currentQuestion < questions!.length - 1) {
-          setCurrentQuestion(prev => prev + 1);
+        } else if (currentQuestionIndex !== null && currentQuestionIndex < questionsData!.questions.length - 1) {
+          setCurrentQuestionIndex(prev => prev !== null ? prev + 1 : 0); // Increment index safely
           setSelectedOption(null);
         } else {
+          // Should ideally be caught by quizComplete, but redirect as fallback
           router.push(`/quiz/${sessionId}/results`);
         }
         
         setIsSubmitting(false);
-      }, 2000);
+      }, 1300);
     } catch (error) {
       console.error("Error submitting answer:", error);
       setIsSubmitting(false);
@@ -78,13 +115,36 @@ export default function QuizSessionPage() {
     }
   };
 
-  if (isLoading) return <div className="flex justify-center items-center min-h-screen">Loading quiz questions...</div>;
-  if (error) return <div className="flex justify-center items-center min-h-screen">Error loading quiz: {error.message}</div>;
-  if (!questions || questions.length === 0) return <div className="flex justify-center items-center min-h-screen">No questions available</div>;
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-full text-2xl text-green-brand">
+        <p className="animate-pulse">Loading quiz questions...</p>
+      </div>
+    );
+  }
 
+  if (error) {
+    console.log("Error loading quiz: ", error);
+    return (
+      <div className="flex text-2xl text-muted-foreground">
+        <p>Cannot find such quiz. Redirect to <Link href="/" className="text-green-brand hover:text-green-brand underline animate-pulse">home</Link> page...</p>
+      </div>
+    );  
+  }
+  
+  if (currentQuestionIndex === null || !questionsData || questionsData.questions.length === 0) {
+    return (
+      <div className="flex text-2xl text-muted-foreground">
+        <p>Cannot find such quiz. Redirect to <Link href="/" className="text-green-brand hover:text-green-brand underline animate-pulse">home</Link> page...</p>
+      </div>
+    );
+  }
+
+  const { questions } = questionsData;
   const totalQuestions = questions.length;
-  const progress = ((currentQuestion + 1) / totalQuestions) * 100;
-  const currentQuestionData = questions[currentQuestion];
+  // Progress calculation remains the same, using the current index
+  const progress = ((currentQuestionIndex + 1) / totalQuestions) * 100;
+  const currentQuestionData = questions[currentQuestionIndex];
 
   return (
     <div className="relative min-h-full flex flex-col items-center justify-center p-4 mx-auto">
@@ -107,7 +167,7 @@ export default function QuizSessionPage() {
 
         <div className="w-full space-y-2">
           <div className="flex justify-between text-sm">
-            <span>Question {currentQuestion + 1} of {totalQuestions}</span>
+            <span>Question {currentQuestionIndex + 1} of {totalQuestions}</span>
             <span>{Math.round(progress)}% complete</span>
           </div>
           <Progress value={progress} className="h-2" />

@@ -34,7 +34,7 @@ export default function RootLayout({
                   <div className="flex h-screen w-full mx-2">
                     <AppSidebar />
                     <div className="flex-1 flex flex-col w-full mb-2 mr-2">
-                      <header className="sticky top-2 z-10 flex items-center py-2 shrink-0">
+                      <header className="sticky top-2 z-10 flex items-center pt-2 pb-3 bg-background dark:bg-background">
                         <BreadcrumbNav />
                       </header>
                       <main className="flex-1 w-full overflow-y-auto py-4">
@@ -43,13 +43,9 @@ export default function RootLayout({
                     </div>
                   </div>  
                   <Toaster 
-                    position="top-right" 
                     expand={false} 
                     richColors 
                     closeButton
-                    toastOptions={{
-                      duration: 4000,
-                    }}
                   />
                 </SidebarProvider>
               </SignedIn>

@@ -1,6 +1,6 @@
 import { db } from "@/db";
 import { NextRequest, NextResponse } from "next/server";
-import { quizSession, questions } from "@/db/schema";
+import { quizSession, questions, quizAnswers } from "@/db/schema";
 import { eq, inArray } from "drizzle-orm";
 
 // This endpoint gets questions for a specific quiz session
@@ -49,15 +49,30 @@ export const GET = async (
       .from(questions)
       .where(inArray(questions.id, questionIds));
 
+    // Fetch answered questions for this session
+    const answeredData = await db.select({ questionId: quizAnswers.questionId })
+      .from(quizAnswers)
+      .where(eq(quizAnswers.sessionId, sessionId));
+    
+    const answeredQuestionIds = answeredData.map(a => a.questionId);
+    
     // Reorder to match the original order from questionIds
     const orderedQuestions = questionIds.map(id => 
       questionsData.find(q => q.id === id)
-    ).filter(Boolean); // Remove any undefined (in case a question was deleted)
+    ).filter(Boolean) as (typeof questions.$inferSelect)[]; // Ensure type after filter
+
+    // Calculate the index of the first unanswered question
+    const answeredIdsSet = new Set(answeredQuestionIds);
+    const firstUnansweredIndex = orderedQuestions.findIndex(q => !answeredIdsSet.has(q.id));
 
     return NextResponse.json({
       success: true,
-      data: orderedQuestions,
-      quizStatus: quizRecord[0].status,
+      data: {
+        questions: orderedQuestions,
+        answeredQuestionIds,
+        quizStatus: quizRecord[0].status,
+        firstUnansweredIndex: firstUnansweredIndex,
+      }
     });
   } catch (error) {
     console.error("Error fetching quiz questions:", error);

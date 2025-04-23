@@ -44,7 +44,16 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-
+  
+  --animate-move: move 5s linear infinite;
+  @keyframes move {
+    0% {
+      transform: translateX(-200px);
+    }
+    100% {
+      transform: translateX(200px);
+    }
+  }
 }
 
 :root {
@@ -167,3 +176,4 @@
   background-color: #79745c;
   border-radius: 4px;
 }
+

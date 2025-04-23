@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { useStartQuiz } from '@/hooks/quiz/useQuizActions';
+import { useStartQuiz } from '@/hooks/quiz/useStartQuiz';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
 
@@ -11,7 +11,7 @@ interface QuizStarterProps {
 
 export function QuizStarter({ userId }: QuizStarterProps) {
   const router = useRouter();
-  const [questionCount, setQuestionCount] = useState(25);
+  const [questionCount, setQuestionCount] = useState(10);
   const [isLoading, setIsLoading] = useState(false);
   const startQuizMutation = useStartQuiz();
   
@@ -51,8 +51,10 @@ export function QuizStarter({ userId }: QuizStarterProps) {
               <SelectValue placeholder="Select number of questions" />
             </SelectTrigger>
             <SelectContent>
+              <SelectItem value="10">10 Questions</SelectItem>
               <SelectItem value="25">25 Questions</SelectItem>
               <SelectItem value="50">50 Questions</SelectItem>
+              <SelectItem value="75">75 Questions</SelectItem>
             </SelectContent>
           </Select>
         </div>

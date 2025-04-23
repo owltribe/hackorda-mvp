@@ -15,11 +15,11 @@ const formatDate = (dateString: string) => {
 const getStatusBadgeClass = (status: QuizSessionSummary['status']) => {
   switch (status) {
     case 'completed':
-      return 'bg-green-100 text-green-800 hover:bg-green-200';
-    case 'in-progress':
-      return 'bg-yellow-100 text-yellow-800 hover:bg-yellow-200';
+      return 'bg-green-brand text-black hover:bg-green-300';
+    case 'in_progress':
+      return 'bg-blue-500 text-black hover:bg-blue-400';
     case 'abandoned':
-      return 'bg-red-100 text-red-800 hover:bg-red-200';
+      return 'bg-red-brand text-black hover:bg-red-brand-300';
     default:
       return 'bg-gray-100 text-gray-800'; // Default or unknown status
   }
@@ -74,12 +74,21 @@ export const columns: ColumnDef<QuizSessionSummary>[] = [
       const status = row.getValue("status") as QuizSessionSummary['status'];
       return (
         <div className="text-right">
-          <Badge 
-            variant="outline" // Use outline variant for better color contrast with background
-            className={`capitalize ${getStatusBadgeClass(status)}`}
-          >
-            {status.replace('-', ' ')}
-          </Badge>
+          {status === 'in_progress' ? (
+            <Badge 
+              variant="outline" // Use outline variant for better color contrast with background
+              className={`capitalize ${getStatusBadgeClass(status)} cursor-pointer`} // Add cursor-pointer for visual cue
+            >
+              {status.replace('_', ' ')}
+            </Badge>
+          ) : (
+            <Badge 
+              variant="outline" // Use outline variant for better color contrast with background
+              className={`capitalize ${getStatusBadgeClass(status)}`}
+            >
+              {status.replace('_', ' ')}
+            </Badge>
+          )}
         </div>
       );
     },

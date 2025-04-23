@@ -38,7 +38,7 @@ export interface QuizSessionSummary {
   userId: string;
   numberOfQuestions: number;
   score: number | null;
-  status: 'in-progress' | 'completed' | 'abandoned';
+  status: 'in_progress' | 'completed' | 'abandoned';
   selectionCriteria: string;
   createdAt: string;
   updatedAt: string | null;
@@ -82,7 +82,7 @@ export interface QuizSession {
   sessionId: number; // Session ID
   userId: string;
   questionIds: number[]; // IDs of the questions selected for this session
-  status: 'in-progress'; // Should be in-progress when started
+  status: 'in_progress'; // Should be in-progress when started
   createdAt: string;
   // Other relevant fields like moduleId, numberOfQuestions etc. might be here
 }

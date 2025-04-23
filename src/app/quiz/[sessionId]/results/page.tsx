@@ -7,6 +7,7 @@ import { Progress } from "@/components/ui/progress";
 import { CheckCircle, XCircle, Award, Clock, ChevronLeft, RotateCw } from "lucide-react";
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
+import Link from "next/link";
 
 dayjs.extend(utc);
 
@@ -14,16 +15,50 @@ export default function QuizResultsPage() {
   const params = useParams();
   const router = useRouter();
   const sessionId = parseInt(params.sessionId as string);
-  
   const { data: results, isLoading, error } = useQuizResults(sessionId);
-  
+
   const handleStartNewQuiz = () => {
     router.push('/quiz');
   };
-  
-  if (isLoading) return <div className="flex justify-center items-center min-h-screen">Loading quiz results...</div>;
-  if (error) return <div className="flex justify-center items-center min-h-screen">Error loading results: {error.message}</div>;
-  if (!results) return <div className="flex justify-center items-center min-h-screen">No results available</div>;
+
+  // useEffect(() => {
+  //   if (!results) {
+  //     const timer = setTimeout(() => {
+  //       router.push('/');
+  //       toast.warning('Cannot find such results.', {
+  //         description: 'Redirecting to home page...',
+  //         position: 'bottom-right',
+  //       });
+  //     }, 3000);
+  //     return () => clearTimeout(timer);
+  //   }
+  // }, [error, router]);
+
+  if (isLoading) {
+    return (
+      <div className="flex text-md text-green-brand">
+        <p className="animate-pulse">Loading quiz results...</p>
+      </div>
+    );
+  }
+
+  if (!results) {
+    console.log("Error loading quiz results: ", error);
+    return (
+      <div className="flex text-md text-muted-foreground">
+        <p>Cannot find such results. Redirect to <Link href="/" className="text-green-brand hover:text-green-brand underline animate-pulse">home</Link> page...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    console.log("Something went wrong: ", error);
+    return (
+      <div className="flex text-md text-muted-foreground">
+        <p>Something went wrong. Redirect to <Link href="/" className="text-green-brand hover:text-green-brand underline animate-pulse">home</Link> page...</p>
+      </div>
+    );
+  }
   
   const { quiz, summary } = results;
   const scorePercentage = Math.round((summary.correct / summary.numberOfQuestions) * 100);
