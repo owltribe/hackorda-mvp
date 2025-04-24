@@ -8,6 +8,7 @@ import { CheckCircle, XCircle, Award, Clock, ChevronLeft, RotateCw } from "lucid
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import Link from "next/link";
+import SkeletonQuizResultsPage from "@/components/skeleton/skeleton-quiz-results-page";
 
 dayjs.extend(utc);
 
@@ -37,7 +38,7 @@ export default function QuizResultsPage() {
   if (isLoading) {
     return (
       <div className="flex text-md text-green-brand">
-        <p className="animate-pulse">Loading quiz results...</p>
+        <SkeletonQuizResultsPage />
       </div>
     );
   }
