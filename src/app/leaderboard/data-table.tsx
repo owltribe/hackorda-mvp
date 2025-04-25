@@ -63,7 +63,10 @@ export function DataTable<TData, TValue>({
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id} className="text-center">
+                  <TableHead 
+                    key={header.id} 
+                    className={`${header.column.id === "name" ? "text-left" : "text-center"} ${getColumnWidth(header.column.id)}`}
+                  >
                     {header.isPlaceholder
                       ? null
                       : flexRender(
@@ -83,7 +86,10 @@ export function DataTable<TData, TValue>({
                   className="text-center"
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell 
+                      key={cell.id}
+                      className={`${cell.column.id === "name" ? "text-left" : "text-center"} ${getColumnWidth(cell.column.id)}`}
+                    >
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}
@@ -99,7 +105,7 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
+      <div className="flex items-center justify-start space-x-2 py-4">
         <Button
           variant="outline"
           size="sm"
@@ -119,4 +125,21 @@ export function DataTable<TData, TValue>({
       </div>
     </div>
   )
+}
+
+function getColumnWidth(columnId: string): string {
+  switch (columnId) {
+    case "position":
+      return "w-[10%]"
+    case "name":
+      return "w-[40%]"
+    case "completedQuizzes":
+      return "w-[15%]"
+    case "averageScore":
+      return "w-[17.5%]"
+    case "highestScore":
+      return "w-[17.5%]"
+    default:
+      return "w-auto"
+  }
 }

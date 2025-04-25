@@ -20,7 +20,7 @@ async function getLeaderboardData() {
     .where(sql`status = 'completed'`)
     .groupBy(quizSession.userId, quizSession.selectionCriteria, users.firstName, users.lastName)
     .orderBy(desc(sql`AVG(score)` as any))
-    .limit(100);
+    .limit(1000);
 
   return leaderboard;
 }
@@ -29,7 +29,7 @@ export default async function LeaderboardPage() {
   const leaderboardData = await getLeaderboardData();
 
   return (
-    <div className="container mx-auto py-10 space-y-6">
+    <div className="container mx-auto space-y-6">
       <div className="flex flex-col gap-2">
         <h1 className="text-3xl font-bold">Leaderboard</h1>
         <p className="text-muted-foreground">
