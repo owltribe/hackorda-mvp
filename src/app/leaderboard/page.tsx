@@ -19,7 +19,7 @@ async function getLeaderboardData() {
     .leftJoin(users, sql`${users.id} = ${quizSession.userId}`)
     .where(sql`status = 'completed'`)
     .groupBy(quizSession.userId, quizSession.selectionCriteria, users.firstName, users.lastName)
-    .orderBy(desc(sql`AVG(score)` as any))
+    .orderBy(desc(sql`AVG(score)`))
     .limit(1000);
 
   return leaderboard;
