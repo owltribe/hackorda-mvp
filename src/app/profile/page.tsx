@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation";
 import { QuizSessionSummary } from "@/types"
 import { InProgressQuizNotifier } from "@/components/notifications/InProgressQuizNotifier";
+import { SkeletonProfilePage } from "@/components/skeleton/skeleton-profile-page"
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -54,7 +55,7 @@ export default function ProfilePage() {
   if (isLoadingUser) {
     return (
       <div className="flex text-2xl text-green-brand">
-        <p className="animate-pulse">Loading user profile...</p>
+        <SkeletonProfilePage />
       </div>
     );
   }
