@@ -8,8 +8,8 @@ interface LeaderboardData {
   firstName: string | null
   lastName: string | null
   completedQuizzes: number
-  averageScore: number
-  highestScore: number
+  averagePercentageScore: number | null
+  averageCorrect: number | null
 }
 
 interface CellProps {
@@ -17,49 +17,53 @@ interface CellProps {
 }
 
 interface ScoreCellProps extends CellProps {
-  key: "averageScore" | "highestScore"
+  key: "averagePercentageScore" | "averageCorrect"
 }
 
 const renderName = ({ row }: CellProps): string => {
   const firstName = row.original.firstName || 'Anonymous'
-  const lastName = row.original.lastName || 'User'
+  const lastName = row.original.lastName || ''
   return `${firstName} ${lastName}`
 }
 
 const renderScore = ({ row, key }: ScoreCellProps): string => {
-  const score = row.getValue(key) as number
-  return `${Math.round(score)}%`
+  const value = row.getValue(key) as number | null
+  if (value === null) {
+    return 'N/A'
+  }
+  return key === "averagePercentageScore" ? `${Math.round(value)}%` : `${Math.round(value)}`;
 }
 
 export const columns: ColumnDef<LeaderboardData>[] = [
   {
     id: "position",
-    header: "Place",
+    header: () => <div className="text-center font-medium">Rank</div>,
     cell: ({ row }) => {
-      return <div className="text-center font-medium">{row.index + 1}</div>
+      return <div className="text-center text-md font-bold">{row.index + 1}</div>
     }
   },
   {
     accessorKey: "name",
-    header: "Student Name",
+    header: () => <div className="text-left font-medium">Full Name</div>,
     cell: renderName
   },
   {
+    accessorKey: "averageCorrect",
+    header: () => <div className="text-center">Avg. Correct</div>,
+    cell: (props) => renderScore({ ...props, key: "averageCorrect" })
+  },
+  {
+    accessorKey: "averagePercentageScore",
+    header: () => <div className="text-center">Average Score</div>,
+    sortDescFirst: true,
+    cell: (props) => renderScore({ ...props, key: "averagePercentageScore" })
+  },
+  {
     accessorKey: "completedQuizzes",
-    header: "Completed",
+    header: () => <div className="text-center">Completed</div>,
     cell: ({ row }) => {
-      return <div className="text-center">{row.getValue("completedQuizzes")}</div>
+      const count = row.getValue("completedQuizzes") as number | null;
+      return <div className="text-center">{count ?? 'N/A'}</div>
     }
   },
-  {
-    accessorKey: "averageScore",
-    header: "Average Score",
-    sortDescFirst: true,
-    cell: (props) => renderScore({ ...props, key: "averageScore" })
-  },
-  {
-    accessorKey: "highestScore",
-    header: "Best Score",
-    cell: (props) => renderScore({ ...props, key: "highestScore" })
-  }
 ]

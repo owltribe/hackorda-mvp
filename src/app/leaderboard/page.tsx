@@ -1,51 +1,45 @@
-import { db } from "@/db";
-import { quizSession, users } from "@/db/schema";
+"use client";
+
 import { DataTable } from "./data-table";
 import { columns } from "./columns";
-import { sql, desc } from "drizzle-orm";
+import { useLeaderboardData } from "@/hooks/leaderboard/useLeaderboardData";
+import { useUserProfile } from "@/hooks/user/useUserProfile";
+// import { SkeletonLeaderboardPage } from "@/components/skeleton/skeleton-leaderboard-page";
 
-async function getLeaderboardData() {
-  const leaderboard = await db
-    .select({
-      userId: quizSession.userId,
-      firstName: users.firstName,
-      lastName: users.lastName,
-      quizCriteria: quizSession.selectionCriteria,
-      completedQuizzes: sql<number>`COUNT(*)`,
-      averageScore: sql<number>`ROUND(AVG(score), 2)`,
-      highestScore: sql<number>`MAX(score)`
-    })
-    .from(quizSession)
-    .leftJoin(users, sql`${users.id} = ${quizSession.userId}`)
-    .where(sql`status = 'completed'`)
-    .groupBy(quizSession.userId, quizSession.selectionCriteria, users.firstName, users.lastName)
-    .orderBy(desc(sql`AVG(score)`))
-    .limit(1000);
+export default function LeaderboardPage() {
+  const { data: user, isLoading: isLoadingUser } = useUserProfile();
+  const { 
+    data: leaderboardData, 
+    isLoading: isLoadingLeaderboard,
+    error 
+  } = useLeaderboardData();
 
-  return leaderboard;
-}
+  const isLoading = isLoadingUser || isLoadingLeaderboard;
 
-export default async function LeaderboardPage() {
-  const leaderboardData = await getLeaderboardData();
+  // TODO: Add skeleton loading
+  if (isLoading) {
+    // return <SkeletonLeaderboardPage />;
+    return <div className="text-center text-muted-foreground">Loading...</div>;
+  }
+
+  if (error) {
+    console.log("Error loading leaderboard data: ", error);
+    return <div className="text-center text-destructive">Error loading leaderboard.</div>;
+  }
+
+  const dataToShow = leaderboardData ?? [];
+  const currentUserId = user?.id;
 
   return (
-    <div className="container mx-auto space-y-6">
-      <div className="flex flex-col gap-2">
-        <h1 className="text-3xl font-bold">Leaderboard</h1>
-        <p className="text-muted-foreground">
-          Top performers ranked by average quiz score
-        </p>
-      </div>
-
-      {leaderboardData.length > 0 ? (
-        <DataTable columns={columns} data={leaderboardData} />
+    <section className="container max-w-5xl">
+      <h1 className="text-3xl font-bold mb-6">Leaderboard</h1>
+      {dataToShow.length > 0 ? (
+        <DataTable columns={columns} data={dataToShow} currentUserId={currentUserId} />
       ) : (
-        <div className="flex flex-col items-center justify-center h-[400px] border rounded-lg bg-muted/10">
-          <p className="text-muted-foreground text-center">
-            No quiz data available yet. Be the first to take a quiz!
-          </p>
+        <div className="text-center text-muted-foreground">
+          No leaderboard data available yet.
         </div>
       )}
-    </div>
+    </section>
   );
 }

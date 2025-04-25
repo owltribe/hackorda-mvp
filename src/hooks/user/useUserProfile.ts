@@ -2,11 +2,11 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { UserProfile } from "@/types";
-import { useUser } from "@clerk/nextjs";
+// import { useAuth } from "@clerk/nextjs";
 
 export const useUserProfile = () => {
   // Get Clerk authentication state
-  const { isLoaded: isClerkLoaded } = useUser();
+  // const { isLoaded: isClerkLoaded } = useAuth();
 
   const getUserProfile = async () => {
     const response = await fetch('/api/users/me');
@@ -38,6 +38,6 @@ export const useUserProfile = () => {
     retry: 1, // Limit retries to reduce unnecessary calls
     refetchOnWindowFocus: false, // Don't refetch when window regains focus
     // Only start fetching once Clerk is loaded
-    enabled: isClerkLoaded,
+    // enabled: isClerkLoaded,
   });
 }; 

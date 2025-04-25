@@ -5,9 +5,9 @@ import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
+  getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  SortingState,
   useReactTable,
 } from "@tanstack/react-table"
 
@@ -20,17 +20,19 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
 
-interface DataTableProps<TData, TValue> {
+interface DataTableProps<TData extends { userId: string }, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
+  currentUserId?: string | null
 }
 
-export function DataTable<TData, TValue>({
+export function DataTable<TData extends { userId: string }, TValue>({
   columns,
-  data
+  data,
+  currentUserId
 }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = React.useState<SortingState>([])
 
   const table = useReactTable({
     data,
@@ -38,21 +40,12 @@ export function DataTable<TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    onSortingChange: setSorting,
-    state: {
-      sorting,
-    },
-    initialState: {
+    getFilteredRowModel: getFilteredRowModel(),
+    initialState: { // Set initial page size
       pagination: {
-        pageSize: 20, 
+        pageSize: 15, // Show 15 rows per page initially
       },
-      sorting: [
-        {
-          id: "averageScore",
-          desc: true 
-        }
-      ]
-    },
+    },  
   })
 
   return (
@@ -65,7 +58,10 @@ export function DataTable<TData, TValue>({
                 {headerGroup.headers.map((header) => (
                   <TableHead 
                     key={header.id} 
-                    className={`${header.column.id === "name" ? "text-left" : "text-center"} ${getColumnWidth(header.column.id)}`}
+                    className={cn(
+                      header.column.id === "name" ? "text-left" : "text-center", 
+                      getColumnWidth(header.column.id)
+                    )}
                   >
                     {header.isPlaceholder
                       ? null
@@ -80,21 +76,32 @@ export function DataTable<TData, TValue>({
           </TableHeader>
           <TableBody>
             {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  className="text-center"
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell 
-                      key={cell.id}
-                      className={`${cell.column.id === "name" ? "text-left" : "text-center"} ${getColumnWidth(cell.column.id)}`}
-                    >
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
+              table.getRowModel().rows.map((row) => {
+                const isCurrentUser = row.original.userId === currentUserId;
+                // const isRankOne = row.index === 0;
+                return (
+                  <TableRow
+                    key={row.id}
+                    className={cn(
+                      "text-center transition-colors",
+                      isCurrentUser && "bg-green-brand/10 font-semibold",
+                      // isRankOne && "h-12 bg-amber-300 text-black font-semibold text-xl"
+                    )}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell 
+                        key={cell.id}
+                        className={cn(
+                          cell.column.id === "name" ? "text-left" : "text-center", 
+                          getColumnWidth(cell.column.id)
+                        )}
+                      >
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                )
+              })
             ) : (
               <TableRow>
                 <TableCell colSpan={columns.length} className="h-24 text-center">
@@ -132,12 +139,12 @@ function getColumnWidth(columnId: string): string {
     case "position":
       return "w-[10%]"
     case "name":
-      return "w-[40%]"
+      return "w-[35%]"
     case "completedQuizzes":
       return "w-[15%]"
-    case "averageScore":
+    case "averagePercentageScore":
       return "w-[17.5%]"
-    case "highestScore":
+    case "averageCorrect":
       return "w-[17.5%]"
     default:
       return "w-auto"

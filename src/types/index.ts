@@ -123,3 +123,15 @@ export interface ClerkUserProfile {
 export interface ClerkProfileData {
   user: ClerkUserProfile;
 }
+
+// Represents a leaderboard entry.
+// Used in: src/hooks/leaderboard/useLeaderboardData.ts
+export interface LeaderboardEntry {
+  userId: string;
+  firstName: string | null;
+  lastName: string | null;
+  quizCriteria: string | null;
+  completedQuizzes: number;
+  averagePercentageScore: number | null;
+  averageCorrect: number | null;
+}

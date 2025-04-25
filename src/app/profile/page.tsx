@@ -10,38 +10,32 @@ import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation";
 import { QuizSessionSummary } from "@/types"
 import { InProgressQuizNotifier } from "@/components/notifications/InProgressQuizNotifier";
-import { SkeletonProfilePage } from "@/components/skeleton/skeleton-profile-page"
+import { SkeletonProfile } from "@/components/skeleton/skeleton-profile-page";
 
 export default function ProfilePage() {
   const router = useRouter();
-  
-  const { 
-    data: user, 
-    isLoading: isLoadingUser, 
-    error: userError 
-  } = useUserProfile();
-  
-  // Only fetch quiz sessions if we have a user ID
-  const { 
-    data: recentQuizzes, 
-    isLoading: isLoadingSessions, 
-    error: sessionsError 
-  } = useUserQuizSessions(user?.id);
+  const { data: user, isLoading: isLoadingUser, error: userError } = useUserProfile();
+  const { data: recentQuizzes, isLoading: isLoadingSessions, error: sessionsError } = useUserQuizSessions(user?.id);
 
-  // // Handle error toast - show only once
-  // useEffect(() => {
-  //   if (error && !errorToastShown.current) {
-  //     errorToastShown.current = true;
-  //     toast.error(`Error: ${error.message}`, {
-  //       position: 'bottom-right',
-  //       duration: 15000,
-  //       action: {
-  //         label: 'Close',
-  //         onClick: () => router.push('/sign-in'),
-  //       },
-  //     });
-  //   }
-  // }, [error, router]);
+  if (isLoadingUser) {
+    console.log("Loading user profile...");
+    return <SkeletonProfile />
+  }
+
+  if (userError || !user) {
+    console.log("Error loading user profile:", userError); 
+    console.log("No user available after loading attempt."); 
+    return
+  }
+
+  if (isLoadingSessions) {
+    console.log("Loading quiz sessions...");
+    return
+  }
+
+  if (sessionsError) {
+    console.log("Error loading quiz sessions: ", sessionsError);
+  }
 
   const handleRowClick = (quiz: QuizSessionSummary) => {
     if (quiz.status === 'in_progress') {
@@ -51,47 +45,24 @@ export default function ProfilePage() {
     }
   };
 
-  // Show loading state
-  if (isLoadingUser) {
-    return (
-      <div className="flex text-2xl text-green-brand">
-        <SkeletonProfilePage />
-      </div>
-    );
-  }
-
-  if (isLoadingSessions) {
-    return (
-      <div className="flex text-2xl text-green-brand">
-        <p className="animate-pulse"> Loading quiz sessions...</p>
-      </div>
-    );
-  }
-
-  // Handle unauthenticated state
-  if (userError || !user) {
-    console.log("Error loading user profile: ", userError);
-    console.log("No user available: ", user);
-    return
-  }
-
-  if (sessionsError) {
-    console.log("Error loading quiz sessions: ", sessionsError);
-    return
-  }
-
-  // Calculate stats from quiz session - Provide default empty array for recentQuizzes
   const quizzes = recentQuizzes ?? [];
   const totalQuizzes = quizzes.length;
-  const completedQuizzes = quizzes.filter(q => (q.score ?? 0) > 0).length; 
-  const totalScoreSum = quizzes.reduce((sum, quiz) => sum + (quiz.score ?? 0), 0);
-  const averageScore = totalQuizzes > 0 
-    ? Math.round(totalScoreSum / totalQuizzes) 
+  const completedQuizzes = quizzes.filter(q => q.status === 'completed').length; 
+  
+  const completedSessionsForAvg = quizzes.filter(
+    q => q.status === 'completed' && q.score !== null && q.numberOfQuestions > 0
+  );
+  const completedCountForAvg = completedSessionsForAvg.length;
+
+  const totalScoreSum = completedSessionsForAvg.reduce((sum, quiz) => sum + quiz.score!, 0);
+  const percentageSum = completedSessionsForAvg.reduce((sum, quiz) => 
+      sum + ((quiz.score! * 100.0) / quiz.numberOfQuestions!), 0);
+
+  const averageScore = completedCountForAvg > 0 
+    ? Math.round(totalScoreSum / completedCountForAvg) 
     : 0;
-  const percentageSum = quizzes.reduce((sum, quiz) => 
-      sum + ((quiz.score ?? 0) / quiz.numberOfQuestions) * 100, 0);
-  const averagePercentage = totalQuizzes > 0 
-    ? Math.round(percentageSum / totalQuizzes) 
+  const averagePercentage = completedCountForAvg > 0 
+    ? Math.round(percentageSum / completedCountForAvg) 
     : 0;
   
   return (  
