@@ -14,10 +14,19 @@ import { SkeletonProfile } from "@/components/skeleton/skeleton-profile-page";
 
 export default function ProfilePage() {
   const router = useRouter();
-  const { data: user, isLoading: isLoadingUser, error: userError } = useUserProfile();
-  const { data: recentQuizzes, isLoading: isLoadingSessions, error: sessionsError } = useUserQuizSessions(user?.id);
+  const { 
+    data: user, 
+    isLoading: isLoadingUser, 
+    error: userError 
+  } = useUserProfile();
 
-  if (isLoadingUser) {
+  const { 
+    data: recentQuizzes, 
+    isLoading: isLoadingSessions, 
+    error: sessionsError 
+  } = useUserQuizSessions(user?.id);
+
+  if (isLoadingUser || isLoadingSessions) {
     console.log("Loading user profile...");
     return <SkeletonProfile />
   }
@@ -25,11 +34,6 @@ export default function ProfilePage() {
   if (userError || !user) {
     console.log("Error loading user profile:", userError); 
     console.log("No user available after loading attempt."); 
-    return
-  }
-
-  if (isLoadingSessions) {
-    console.log("Loading quiz sessions...");
     return
   }
 
