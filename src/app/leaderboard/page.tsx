@@ -4,7 +4,6 @@ import { DataTable } from "./data-table";
 import { columns } from "./columns";
 import { useLeaderboardData } from "@/hooks/leaderboard/useLeaderboardData";
 import { useUserProfile } from "@/hooks/user/useUserProfile";
-// import { SkeletonLeaderboardPage } from "@/components/skeleton/skeleton-leaderboard-page";
 
 export default function LeaderboardPage() {
   const { data: user, isLoading: isLoadingUser } = useUserProfile();
@@ -16,15 +15,14 @@ export default function LeaderboardPage() {
 
   const isLoading = isLoadingUser || isLoadingLeaderboard;
 
-  // TODO: Add skeleton loading
+  // TODO: Add skeleton for leaderboard table loading
   if (isLoading) {
     // return <SkeletonLeaderboardPage />;
-    return <div className="text-center text-muted-foreground">Loading...</div>;
+    return <div className="text-muted-foreground">Loading...</div>;
   }
 
   if (error) {
     console.log("Error loading leaderboard data: ", error);
-    return <div className="text-center text-destructive">Error loading leaderboard.</div>;
   }
 
   const dataToShow = leaderboardData ?? [];

@@ -37,15 +37,15 @@ const renderScore = ({ row, key }: ScoreCellProps): string => {
 export const columns: ColumnDef<LeaderboardData>[] = [
   {
     id: "position",
-    header: () => <div className="text-center font-medium">Rank</div>,
+    header: () => <div className="text-left font-medium">Rank</div>,
     cell: ({ row }) => {
-      return <div className="text-center text-md font-bold">{row.index + 1}</div>
+      return <div className="text-left text-md font-bold">{row.index + 1}</div>
     }
   },
   {
     accessorKey: "name",
     header: () => <div className="text-left font-medium">Full Name</div>,
-    cell: renderName
+    cell: (props) => <div className="text-md">{renderName(props)}</div>
   },
   {
     accessorKey: "averageCorrect",

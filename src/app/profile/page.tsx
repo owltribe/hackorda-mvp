@@ -14,6 +14,7 @@ import { SkeletonProfile } from "@/components/skeleton/skeleton-profile-page";
 
 export default function ProfilePage() {
   const router = useRouter();
+  
   const { 
     data: user, 
     isLoading: isLoadingUser, 
@@ -26,7 +27,9 @@ export default function ProfilePage() {
     error: sessionsError 
   } = useUserQuizSessions(user?.id);
 
-  if (isLoadingUser || isLoadingSessions) {
+  const isLoading = isLoadingUser || isLoadingSessions;
+
+  if (isLoading) {
     console.log("Loading user profile...");
     return <SkeletonProfile />
   }
