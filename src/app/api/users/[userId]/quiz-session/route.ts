@@ -18,13 +18,13 @@ export async function GET(
       }, { status: 400 });
     }
 
-    // Get user's quiz session sorted by most recent first
-    const session = await db.select({
+    // Get user's quiz sessions sorted by most recent first
+    // Select only the necessary fields for each session summary
+    const sessions = await db.select({
       id: quizSession.id,
       status: quizSession.status,
       score: quizSession.score,
       numberOfQuestions: quizSession.numberOfQuestions,
-      questionIds: quizSession.questionIds,
       selectionCriteria: quizSession.selectionCriteria,
       createdAt: quizSession.createdAt,
       updatedAt: quizSession.updatedAt,
@@ -35,7 +35,7 @@ export async function GET(
 
     return NextResponse.json({
       success: true,
-      data: session,
+      data: sessions,
     });
   } catch (error) {
     console.error("Error fetching user quiz session:", error);

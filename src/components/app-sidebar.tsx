@@ -24,8 +24,9 @@ import { QuizActionButton } from "@/components/quiz-action-button"
 import { SidebarAuth } from "@/components/sidebar-auth"
 import Link from "next/link";
 import { usePathname, useParams } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, MouseEvent } from "react";
 import { ThemeToggle } from "./theme-toggle/theme-toggle";
+import { toast } from "sonner";
 
 const navItems = [
   {
@@ -49,21 +50,39 @@ const navItems = [
 export function AppSidebar() {
   const pathname = usePathname();
   const params = useParams();
-  const sessionId = parseInt(params.sessionId as string);
-  const isInQuiz = pathname.startsWith(`/quiz/${sessionId}`) && !pathname.includes('/results') && pathname !== '/quiz';
+  const sessionId = params.sessionId ? parseInt(params.sessionId as string) : NaN;
+  const isInQuiz = pathname.startsWith(`/quiz/`) && !pathname.includes('/results') && !isNaN(sessionId);
   const { setOpen } = useSidebar();
   const hasAutoCollapsed = useRef(false);
-  
+
   // Automatically collapse sidebar 1 time
   useEffect(() => {
     if (isInQuiz && !hasAutoCollapsed.current) {
       setOpen(false);
       hasAutoCollapsed.current = true;
     } else if (!isInQuiz) {
-      // Reset the flag when leaving quiz
       hasAutoCollapsed.current = false;
     }
   }, [isInQuiz, setOpen]);
+
+  const handleLogoClick = (event: MouseEvent<HTMLAnchorElement>) => {
+    if (isInQuiz) {
+      event.preventDefault();
+      toast.warning("Are you sure you want to leave the quiz?",
+        {
+          description: "You may continue later. from profile page.",
+          duration: 10000,
+          position: "top-center",
+          action: {
+            label: "Leave",
+            onClick: () => {
+              window.location.href = "/";
+            },
+          },
+        }
+      );
+    }
+  };
 
   return (
     <Sidebar 
@@ -76,7 +95,12 @@ export function AppSidebar() {
             <div className="flex flex-row items-center gap-2">
               <SidebarTrigger variant="outline" />
               <span className="truncate text-sm text-green-brand">|</span>
-              <Link href="/" className="hover:text-green-brand/90 truncate">
+              <Link 
+                href="/" 
+                className="hover:text-green-brand/90 truncate"
+                onClick={handleLogoClick}
+                aria-label="Navigate to homepage. Action is blocked if a quiz is active."
+              >
                 <h3 className="text-lg">hackorda.kz</h3>
               </Link>
             </div>
