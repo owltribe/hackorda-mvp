@@ -74,7 +74,7 @@ export default function ProfilePage() {
   
   return (  
     <section className="w-full space-y-4">
-      <InProgressQuizNotifier />
+      {/* <InProgressQuizNotifier /> */}
 
       <div className="flex flex-row items-center gap-4">
         <div className="flex flex-col">

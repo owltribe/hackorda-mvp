@@ -8,11 +8,25 @@ interface CardDemoProps {
   description: string;
   image?: string;
   bgColor?: string;
+  onClick?: () => void;
 }
 
-export function CardDemo({ title, moduleNumber, numberOfQuestions, description, bgColor }: CardDemoProps) {
+export function CardDemo({ title, moduleNumber, numberOfQuestions, description, bgColor, onClick }: CardDemoProps) {
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      onClick?.();
+    }
+  };
+
   return (
-    <div className="max-w-xs w-full group/card">
+    <div 
+      className="max-w-xs w-full group/card"
+      onClick={onClick}
+      onKeyDown={handleKeyDown}
+      role="button"
+      tabIndex={0}
+      aria-label={`Start ${title} quiz`}
+    >
       <div
         className={cn(
           " cursor-pointer overflow-hidden relative card h-48 rounded-md max-w-sm mx-auto backgroundImage flex flex-col justify-between p-4",

@@ -30,13 +30,19 @@ export const columns: ColumnDef<QuizSessionSummary>[] = [
     accessorKey: "selectionCriteria", // Field to access
     header: () => <div>Quiz Type</div>,
     cell: ({ row }) => {
-      // Display 'Random Quiz' or Module info based on criteria/score potentially
-      // This logic might need refinement based on how selectionCriteria is stored
-      const criteria = row.getValue("selectionCriteria");
-      // Simple example: if criteria contains 'module', show module, else random
-      return criteria && typeof criteria === 'string' && criteria.toLowerCase().includes('module') 
-        ? `Module Quiz` // Or extract module ID if available
-        : 'Random Quiz';
+      const criteria = row.getValue("selectionCriteria") as string | undefined;
+      
+      if (criteria === 'exam') {
+        return 'Exam';
+      } else if (criteria === 'random') {
+        return 'Random Quiz';
+      } else if (criteria && criteria.toLowerCase().includes('module')) {
+        // Handle potential future module quizzes
+        return `Module Quiz`; // Or extract module details if available
+      } else {
+        // Fallback for older sessions or unexpected criteria
+        return criteria || 'Unknown'; 
+      }
     },
   },
   {
