@@ -49,9 +49,6 @@ export const QuizConfigDialog = ({
       onClose(); // Close the dialog on success
     } catch (error: any) {
       console.error('Failed to start quiz:', error);
-      toast.error("Failed to start quiz", {
-        description: error.message || "An unexpected error occurred.",
-      });
     } finally {
       setIsLoading(false);
       setLoadingButton(null); // Reset loading state for the button
@@ -70,7 +67,7 @@ export const QuizConfigDialog = ({
           <div className="py-4 text-start text-muted-foreground">
             <ul className="list-disc list-inside space-y-1">
               <li>This exam consists of 50 questions.</li>
-              <li>You will have a limited time to complete the quiz.</li> {/* Adjusted wording */}
+              <li>You will have a limited time to complete the quiz.</li>
               <li>You will not be able to pause the quiz.</li>
               <li>You cannot go back to previous questions.</li>
             </ul>
@@ -111,6 +108,7 @@ export const QuizConfigDialog = ({
             </div>
             </>
           )}
+
           {quizType === 'exam' && (
             <Button 
               type="button" 
@@ -123,6 +121,7 @@ export const QuizConfigDialog = ({
             </Button>
           )}
         </DialogFooter>
+
       </DialogContent>
     </Dialog>
   );
