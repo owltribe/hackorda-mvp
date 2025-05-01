@@ -5,6 +5,7 @@ import {
   Home,
   User,
   Trophy,
+  Book,
 } from "lucide-react"
 
 import {
@@ -44,6 +45,11 @@ const navItems = [
     title: "Leaderboard",
     url: "/leaderboard",
     icon: Trophy,
+  },
+  {
+    title: "Blog",
+    url: "/blog",
+    icon: Book,
   },
 ];
 
@@ -120,10 +126,10 @@ export function AppSidebar() {
           <>
           <SidebarGroup>
             <SidebarGroupContent>
-              <SidebarMenu>
+              <SidebarMenu className="space-y-2">
                 {navItems.map((item) => (
                   <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild className="hover:bg-green-brand/10 border-b border-green-brand dark:hover:bg-green-brand/10">
+                    <SidebarMenuButton asChild className="hover:shadow-green-brand hover:shadow-sm transition-shadow duration-300 rounded-lg overflow-hidden border-b">
                       <Link href={item.url}>
                         <item.icon />
                         <span>{item.title}</span>
