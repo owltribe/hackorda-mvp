@@ -1,8 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { X, List } from "lucide-react";
-import Link from "next/link";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import {
   AlertDialog,
@@ -15,6 +13,8 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { useAbandonQuiz } from "@/hooks/quiz/useAbandonQuiz";
+import { Button } from "@/components/ui/button";
+import { HoverBorderGradient } from "./ui/hover-border-gradient";
 
 export function QuizActionButton() {
   const pathname = usePathname();
@@ -66,14 +66,14 @@ export function QuizActionButton() {
   }
 
   return (
-    <Link href="/quiz">
-      <Button 
-        size="sm"
-        className="w-full cursor-pointer"
-      >
-        <List className="size-4" />
-        <span className="group-data-[collapsible=icon]:hidden">Select Quiz</span>
-      </Button>
-    </Link>
+    <HoverBorderGradient
+      as="a"
+      href="/quiz"
+      containerClassName="w-auto py-1"
+      className="flex items-center justify-center"
+    >
+      <List className="size-4" />
+      <span className="group-data-[collapsible=icon]:hidden ml-2">Select Quiz</span>
+    </HoverBorderGradient>
   );
 } 

@@ -47,7 +47,7 @@ export const QuizConfigDialog = ({
       
       router.push(`/quiz/${result.sessionId}`);
       onClose(); // Close the dialog on success
-    } catch (error: any) {
+    } catch (error) {
       console.error('Failed to start quiz:', error);
     } finally {
       setIsLoading(false);
@@ -56,7 +56,7 @@ export const QuizConfigDialog = ({
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => !isLoading && onClose()}> {/* Prevent closing while loading */}
+    <Dialog open={isOpen} onOpenChange={() => !isLoading && onClose()}> {/* Prevent closing while loading */}
       <DialogContent className="w-auto">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
@@ -66,19 +66,9 @@ export const QuizConfigDialog = ({
         {quizType === 'exam' && (
           <div className="py-4 text-start text-muted-foreground">
             <ul className="list-disc list-inside space-y-1">
-              <li>This exam consists of 50 questions.</li>
-              <li>You will have a limited time to complete the quiz.</li>
-              <li>You will not be able to pause the quiz.</li>
+              <li>Test your full-stack knowledge.</li>
+              <li>Do not cheat.</li>
               <li>You cannot go back to previous questions.</li>
-            </ul>
-          </div>
-        )}
-        
-        {quizType === 'random' && (
-          <div className="py-4 text-start text-muted-foreground">
-            <ul className="list-disc list-inside space-y-1">
-              <li>This quiz consists of 10 questions.</li>
-
             </ul>
           </div>
         )}
@@ -86,12 +76,12 @@ export const QuizConfigDialog = ({
         <DialogFooter className={`pt-4 ${quizType === 'random' ? 'gap-2' : ''}`}>
           {quizType === 'random' && (
             <>
-              <div className="flex flex-col w-full gap-2">
+              <div className="flex flex-col gap-2 w-full">
                 <Button 
                   type="button" 
                   onClick={() => handleStartQuiz(10)} 
                   disabled={isLoading || !userId}
-                  className="w-full hover:cursor-pointer"
+                  className="hover:cursor-pointer"
                   aria-label={loadingButton === 10 ? 'Starting 10 Question Quiz...' : 'Quick 10 Question Quiz'}
               >
                 {loadingButton === 10 ? 'Starting...' : '10 Questions'}
@@ -100,7 +90,7 @@ export const QuizConfigDialog = ({
                 type="button" 
                 onClick={() => handleStartQuiz(25)} 
                 disabled={isLoading || !userId}
-                className="w-full hover:cursor-pointer"
+                className="hover:cursor-pointer"
                 aria-label={loadingButton === 25 ? 'Starting 25 Question Quiz...' : 'Start 25 Question Quiz'}
               >
                 {loadingButton === 25 ? 'Starting...' : '25 Questions'}

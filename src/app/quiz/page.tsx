@@ -81,7 +81,7 @@ export default function QuizPage() {
   
   return (
     <div className="container flex flex-col">
-      <InProgressQuizNotifier />
+      {/* <InProgressQuizNotifier /> */}
 
       <div className="flex flex-col items-start gap-4 mb-10">
         <h1 className="font-sans text-4xl font-bold">Select a Quiz</h1>
