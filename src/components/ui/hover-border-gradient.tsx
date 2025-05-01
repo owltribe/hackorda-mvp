@@ -56,7 +56,7 @@ export function HoverBorderGradient({
       }, duration * 1000);
       return () => clearInterval(interval);
     }
-  }, [hovered, duration, clockwise]);
+  }, [hovered, duration, clockwise, direction]);
 
   return (
     <Tag

@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import { useUserProfile } from "@/hooks/user/useUserProfile";
 import Link from "next/link";
-import { InProgressQuizNotifier } from "@/components/notifications/InProgressQuizNotifier";
 import { CardDemo } from "@/components/card";
 import { SkeletonStartQuiz } from "@/components/skeleton/skeleton-start-quiz";
 import { QuizConfigDialog } from "@/components/quiz/QuizConfigDialog";
@@ -81,7 +80,6 @@ export default function QuizPage() {
   
   return (
     <div className="container flex flex-col">
-      {/* <InProgressQuizNotifier /> */}
 
       <div className="flex flex-col items-start gap-4 mb-10">
         <h1 className="font-sans text-4xl font-bold">Select a Quiz</h1>

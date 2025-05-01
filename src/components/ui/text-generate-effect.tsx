@@ -15,7 +15,7 @@ export const TextGenerateEffect = ({
   duration?: number;
 }) => {
   const [scope, animate] = useAnimate();
-  let wordsArray = words.split(" ");
+  const wordsArray = words.split(" ");
   useEffect(() => {
     // Check if scope.current exists before animating
     if (scope.current) {
@@ -31,7 +31,7 @@ export const TextGenerateEffect = ({
         }
       );
     }
-  }, [scope.current, animate, filter, duration]); // Added dependencies
+  }, [scope.current, animate, filter, duration, scope]); // Added dependencies
 
   const renderWords = () => {
     // Ensure component re-renders when words change by using wordsArray in the key or component body
