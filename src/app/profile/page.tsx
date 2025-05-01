@@ -9,7 +9,6 @@ import { BookOpen, Award, Calendar } from 'lucide-react';
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation";
 import { QuizSessionSummary } from "@/types"
-import { InProgressQuizNotifier } from "@/components/notifications/InProgressQuizNotifier";
 import { SkeletonProfile } from "@/components/skeleton/skeleton-profile-page";
 
 export default function ProfilePage() {
@@ -74,8 +73,6 @@ export default function ProfilePage() {
   
   return (  
     <section className="w-full space-y-4">
-      <InProgressQuizNotifier />
-
       <div className="flex flex-row items-center gap-4">
         <div className="flex flex-col">
           <h1 className="text-2xl font-bold">{user.firstName || 'Student'} {user.lastName || 'Student'}</h1>

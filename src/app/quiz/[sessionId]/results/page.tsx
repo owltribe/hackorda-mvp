@@ -96,10 +96,14 @@ export default function QuizResultsPage() {
         </div>
         <div className="text-center">
           <h1 className="text-3xl font-bold mb-2">Quiz Results</h1>
-          <p className="text-muted-foreground">
-            {quiz.selectionCriteria.startsWith('module') 
-              ? `Module: ${quiz.selectionCriteria.replace('module_', '')}` 
-              : 'Random Questions'}
+          <p className="text-muted-foreground capitalize">
+            {quiz.selectionCriteria === 'exam' 
+              ? 'Exam'
+              : quiz.selectionCriteria === 'random'
+              ? 'Random Quiz'
+              : quiz.selectionCriteria.startsWith('module')
+              ? `Module: ${quiz.selectionCriteria.replace('module_', '')}`
+              : quiz.selectionCriteria}
           </p>
           <div className="flex flex-col items-center justify-center">
             <div className="relative w-48 h-48 flex items-center justify-center">
