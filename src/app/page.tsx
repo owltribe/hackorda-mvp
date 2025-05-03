@@ -24,8 +24,11 @@ export default async function Home() {
 
       <div className="flex flex-row gap-8">
 
-        <article className="flex flex-col w-full lg:w-3/4">
-          <h2 className="text-xl mb-6 text-foreground">Latest Blogs</h2>
+        <article className="flex flex-col w-full lg:w-3/4 space-y-6">
+          <div className="flex flex-row justify-between items-center">
+            <h2 className="text-xl text-foreground">Latest Blogs</h2>
+            <Link href="/blog" className="text-sm text-muted-foreground hover:text-primary hover:cursor-pointer">View All</Link>
+          </div>
           {latestPosts.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
               {latestPosts.map((post: PostData) => (
@@ -42,7 +45,7 @@ export default async function Home() {
         <aside className="flex flex-col w-full lg:w-1/4 mt-8 lg:mt-0">
           <h2 className="text-xl mb-6 text-foreground">Personal</h2>
           
-          <div className="flex flex-col gap-8">
+          <div className="flex flex-col gap-6">
 
             <Link href="/profile" className="flex justify-between items-center p-4 border border-border rounded-lg shadow-md hover:shadow-green-brand transition-shadow duration-300">
               <div className="flex flex-col">
