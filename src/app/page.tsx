@@ -7,7 +7,7 @@ import { Flame, Users } from 'lucide-react';
 
 export default async function Home() {
   const user = await currentUser();
-  const latestPosts = getSortedPostsData().slice(0, 3);
+  const latestPosts = getSortedPostsData().slice(0, 6);
 
   return (
     <section className="w-full space-y-8">
