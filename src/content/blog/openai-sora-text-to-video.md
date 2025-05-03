@@ -12,6 +12,8 @@ Sora can create videos up to a minute long while maintaining visual quality and 
 
 The model understands not only what the user asks for in the prompt but also how those things exist in the physical world. This allows it to generate scenes with multiple characters, specific types of motion, and accurate details of both the subject and background.
 
+<!-- ![image1](../../../public/images/blog/Copilot-PC-Hero.jpg) -->
+
 While Sora is initially being made available to red teamers for safety testing and to a select group of visual artists, designers, and filmmakers for feedback, its potential impact on creative industries, content creation, and entertainment is immense. The development raises exciting possibilities but also prompts important discussions about the ethical implications and potential misuse of powerful generative video technology. 
 
 At its recent Worldwide Developers Conference (WWDC), Apple unveiled "Apple Intelligence," its suite of AI features integrated deeply into iOS 18, iPadOS 18, and macOS Sequoia.

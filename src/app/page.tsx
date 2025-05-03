@@ -8,7 +8,7 @@ import { Flame, Users } from 'lucide-react';
 export default async function Home() {
   const user = await currentUser();
   const latestPosts = getSortedPostsData().slice(0, 3);
-  
+
   return (
     <section className="w-full space-y-8">
     <InProgressQuizNotifier />
@@ -42,7 +42,7 @@ export default async function Home() {
         <aside className="flex flex-col w-full lg:w-1/4 mt-8 lg:mt-0">
           <h2 className="text-xl mb-6 text-foreground">Personal</h2>
           
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-8">
 
             <Link href="/profile" className="flex justify-between items-center p-4 border border-border rounded-lg shadow-md hover:shadow-green-brand transition-shadow duration-300">
               <div className="flex flex-col">
@@ -81,14 +81,15 @@ export default async function Home() {
 
       <div className="border rounded-lg"></div>
 
-      <div className="flex flex-row gap-8">
+      {/* <div className="flex flex-row gap-8">
         <div className="flex flex-row items-center">
           <div className="flex flex-col gap-2">
             <h1 className="text-xl text-foreground">Quick Start</h1>
-            {/* <p className="text-lg text-muted-foreground">Ready to challenge yourself?</p> */}
+
           </div>
         </div>
-      </div>
+      </div> */}
+
     </section>
   );
 }

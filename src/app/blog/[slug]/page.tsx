@@ -91,7 +91,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
       {/* Post Content */}
       <div 
-        className="max-w-none headings:mt-6 font-semibold text-primary hover-a:underline img:rounded-md img:mx-auto"
+        className="max-w-none prose dark:text-white font-mono text-xl text-justify leading-normal prose-img:rounded-md prose-img:w-full"
         dangerouslySetInnerHTML={{ __html: post.contentHtml || '' }} 
       />
 
