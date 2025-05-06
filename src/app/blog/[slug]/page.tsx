@@ -4,21 +4,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button'; // Assuming shadcn/ui Button
 import { ArrowLeft, ArrowRight } from 'lucide-react';
-<<<<<<< HEAD
-import { Metadata, ResolvingMetadata } from 'next';
-
-interface BlogPostPageProps {
-  params: {
-    slug: string;
-=======
 import { Metadata } from 'next';
 
-interface BlogPostPageProps {
-  params: {
-    slug: string;  
->>>>>>> 7ee9351b6a993633a450514d617faf7b2e7e1fef
-  };
-}
+// Define proper types for Next.js 15
+type Params = Promise<{
+  slug: string;
+}>;
 
 export async function generateStaticParams() {
   const paths = getAllPostSlugs();
@@ -26,45 +17,36 @@ export async function generateStaticParams() {
 }
 
 // Generate metadata for the page (title, description, etc.)
-<<<<<<< HEAD
-export async function generateMetadata(
-{ params }: BlogPostPageProps,
-  context: ResolvingMetadata
-): Promise<Metadata> {
-=======
-export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
->>>>>>> 7ee9351b6a993633a450514d617faf7b2e7e1fef
+export async function generateMetadata({ 
+  params 
+}: { 
+  params: Params
+}): Promise<Metadata> {
   try {
-    const paramsData = await params;
-    const post = await getPostData(paramsData.slug);
+    const { slug } = await params;
+    const post = await getPostData(slug);
     return {
       title: post.title,
     };
   } catch (error) {
-<<<<<<< HEAD
-=======
     console.log("Error generating metadata: ", error);
->>>>>>> 7ee9351b6a993633a450514d617faf7b2e7e1fef
     return {
       title: 'Post Not Found',
     };
   }
 }
 
-export default async function BlogPostPage({ params }: BlogPostPageProps) {
+export default async function BlogPostPage({ 
+  params
+}: { 
+  params: Params
+}) {
   let post: PostData;
   try {
-<<<<<<< HEAD
-    const paramsData = await params;
-    post = await getPostData(paramsData.slug);
-  } catch (error) {
-=======
-    const paramsData = await params; // Removed await
-    post = await getPostData(paramsData.slug); // Use params directly
+    const { slug } = await params;
+    post = await getPostData(slug);
   } catch (error) {
     console.log("Error getting post data: ", error);
->>>>>>> 7ee9351b6a993633a450514d617faf7b2e7e1fef
-    // If getPostData throws (e.g., file not found), trigger 404
     notFound();
   }
 
@@ -114,11 +96,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
       {/* Post Content */}
       <div 
-<<<<<<< HEAD
-        className="max-w-none headings:mt-6 font-semibold text-primary hover-a:underline img:rounded-md img:mx-auto"
-=======
         className="max-w-none prose dark:text-white dark:prose-a:text-white dark:prose-headings:text-white dark:prose-strong:text-white dark:prose-code:text-white font-mono text-xl text-justify leading-normal prose-img:rounded-md prose-img:w-full"
->>>>>>> 7ee9351b6a993633a450514d617faf7b2e7e1fef
         dangerouslySetInnerHTML={{ __html: post.contentHtml || '' }} 
       />
 

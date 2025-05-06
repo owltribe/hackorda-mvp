@@ -75,11 +75,7 @@ export default function QuizPage() {
   }
   
   return (
-<<<<<<< HEAD
-    <div className="container flex flex-col space-y-8">
-=======
     <div className="container flex flex-col space-y-6">
->>>>>>> 7ee9351b6a993633a450514d617faf7b2e7e1fef
 
       <div className="flex flex-col items-start gap-2">
         <h1 className="text-2xl text-foreground">Select a Quiz</h1>
