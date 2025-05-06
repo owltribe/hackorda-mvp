@@ -61,11 +61,7 @@ export default function QuizPage() {
   };
 
   if (isLoadingUser) {
-    return (
-      <div className="container mx-auto py-10 px-4">
-        <SkeletonStartQuiz />
-      </div>
-    );
+    return <SkeletonStartQuiz />
   }
 
   if (userError || !user) {
@@ -79,7 +75,7 @@ export default function QuizPage() {
   }
   
   return (
-    <div className="container flex flex-col space-y-8">
+    <div className="container flex flex-col space-y-6">
 
       <div className="flex flex-col items-start gap-2">
         <h1 className="text-2xl text-foreground">Select a Quiz</h1>

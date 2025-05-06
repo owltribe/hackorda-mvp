@@ -31,7 +31,7 @@ export const TextGenerateEffect = ({
         }
       );
     }
-  }, [scope.current, animate, filter, duration, scope]); // Added dependencies
+  }, [animate, filter, duration, words, scope]); // Reverted to dependencies: animate, filter, duration, words
 
   const renderWords = () => {
     // Ensure component re-renders when words change by using wordsArray in the key or component body

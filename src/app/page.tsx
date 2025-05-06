@@ -10,7 +10,7 @@ export default async function Home() {
   const latestPosts = getSortedPostsData().slice(0, 6);
 
   return (
-    <section className="w-full space-y-8">
+    <section className="w-full space-y-6">
     <InProgressQuizNotifier />
 
       <div className="flex flex-row items-center">
@@ -22,7 +22,7 @@ export default async function Home() {
 
       <div className="border rounded-lg"></div>
 
-      <div className="flex flex-row gap-8">
+      <div className="flex flex-row gap-6">
 
         <article className="flex flex-col w-full lg:w-3/4 space-y-6">
           <div className="flex flex-row justify-between items-center">
@@ -42,11 +42,10 @@ export default async function Home() {
 
         <div className="border rounded-lg"></div>
 
-        <aside className="flex flex-col w-full lg:w-1/4 mt-8 lg:mt-0">
+        <aside className="flex flex-col w-full lg:w-1/4">
           <h2 className="text-xl mb-6 text-foreground">Personal</h2>
           
           <div className="flex flex-col gap-6">
-
             <Link href="/profile" className="flex justify-between items-center p-4 border border-border rounded-lg shadow-md hover:shadow-green-brand transition-shadow duration-300">
               <div className="flex flex-col">
                 <h3 className="font-semibold text-foreground">Complete your profile</h3>

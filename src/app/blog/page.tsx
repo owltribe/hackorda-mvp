@@ -5,7 +5,7 @@ export default function BlogIndexPage() {
   const allPosts = getSortedPostsData();
 
   return (
-    <section className="w-full space-y-8">
+    <section className="w-full space-y-6">
 
       <div className="flex flex-row items-center">
         <div className="flex flex-col gap-2">

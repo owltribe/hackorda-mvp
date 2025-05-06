@@ -8,7 +8,7 @@ import { Metadata, ResolvingMetadata } from 'next';
 
 interface BlogPostPageProps {
   params: {
-    slug: string;
+    slug: string;  
   };
 }
 
@@ -18,10 +18,7 @@ export async function generateStaticParams() {
 }
 
 // Generate metadata for the page (title, description, etc.)
-export async function generateMetadata(
-{ params }: BlogPostPageProps,
-  context: ResolvingMetadata
-): Promise<Metadata> {
+export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
   try {
     const paramsData = await params;
     const post = await getPostData(paramsData.slug);
@@ -29,6 +26,7 @@ export async function generateMetadata(
       title: post.title,
     };
   } catch (error) {
+    console.log("Error generating metadata: ", error);
     return {
       title: 'Post Not Found',
     };
@@ -38,9 +36,10 @@ export async function generateMetadata(
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
   let post: PostData;
   try {
-    const paramsData = await params;
-    post = await getPostData(paramsData.slug);
+    const paramsData = await params; // Removed await
+    post = await getPostData(paramsData.slug); // Use params directly
   } catch (error) {
+    console.log("Error getting post data: ", error);
     // If getPostData throws (e.g., file not found), trigger 404
     notFound();
   }

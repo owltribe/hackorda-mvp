@@ -3,8 +3,6 @@
 import { ColumnDef } from "@tanstack/react-table"
 import { QuizSessionSummary } from "@/types" // Import the type for quiz data
 import { Badge } from "@/components/ui/badge"
-import { ArrowUpDown } from "lucide-react" // For sorting indicator
-import { Button } from "@/components/ui/button" // For sortable header button
 
 // Helper function to format the date
 const formatDate = (dateString: string) => {
@@ -15,11 +13,11 @@ const formatDate = (dateString: string) => {
 const getStatusBadgeClass = (status: QuizSessionSummary['status']) => {
   switch (status) {
     case 'completed':
-      return 'bg-green-brand text-black hover:bg-green-300';
+      return 'bg-green-brand text-black';
     case 'in_progress':
-      return 'bg-blue-500 text-black hover:bg-blue-400';
+      return 'bg-blue-500 text-black';
     case 'abandoned':
-      return 'bg-red-brand text-black hover:bg-red-brand-300';
+      return 'bg-red-brand text-black';
     default:
       return 'bg-gray-100 text-gray-800'; // Default or unknown status
   }
@@ -47,22 +45,11 @@ export const columns: ColumnDef<QuizSessionSummary>[] = [
   },
   {
     accessorKey: "score",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="text-center w-full justify-center" // Center align header
-        >
-          Score
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      )
-    },
+    header: () => <div>Score</div>,
     cell: ({ row }) => {
       const score = row.getValue("score") as number | null;
       const numQuestions = row.original.numberOfQuestions;
-      return <div className="text-center">{score !== null ? `${score} / ${numQuestions}` : 'N/A'}</div>;
+      return <div>{score !== null ? `${score} / ${numQuestions}` : 'N/A'}</div>;
     },
   },
   {
@@ -78,34 +65,38 @@ export const columns: ColumnDef<QuizSessionSummary>[] = [
     header: () => <div className="text-right">Status</div>, // Right align header text
     cell: ({ row }) => {
       const status = row.getValue("status") as QuizSessionSummary['status'];
+      const selectionCriteria = row.original.selectionCriteria; // Get selection criteria
+
+      let displayText = status.replace('_', ' '); // Default display text
+
+      if (selectionCriteria === 'exam') {
+        if (status === 'completed') {
+          displayText = 'Pass';
+        } else if (status === 'abandoned') {
+          displayText = 'Fail';
+        }
+        // For 'in_progress' exams, it will still show 'in progress'
+      }
+
       return (
         <div className="text-right">
           {status === 'in_progress' ? (
             <Badge 
               variant="outline" // Use outline variant for better color contrast with background
-              className={`capitalize ${getStatusBadgeClass(status)} cursor-pointer`} // Add cursor-pointer for visual cue
+              className={`capitalize ${getStatusBadgeClass(status)}`} // Add cursor-pointer for visual cue
             >
-              {status.replace('_', ' ')}
+              {displayText}
             </Badge>
           ) : (
             <Badge 
               variant="outline" // Use outline variant for better color contrast with background
               className={`capitalize ${getStatusBadgeClass(status)}`}
             >
-              {status.replace('_', ' ')}
+              {displayText}
             </Badge>
           )}
         </div>
       );
     },
   },
-  // If you need row actions (like view results), add an actions column:
-  // {
-  //   id: "actions",
-  //   cell: ({ row }) => {
-  //     const quiz = row.original
-  //     // Add dropdown menu or button here
-  //     return <Button variant="ghost" size="sm" onClick={() => router.push(`/quiz/results/${quiz.id}`)}>View</Button>
-  //   }
-  // }
 ] 

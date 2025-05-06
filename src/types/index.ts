@@ -38,7 +38,7 @@ export interface QuizSessionSummary {
   userId: string;
   numberOfQuestions: number;
   score: number | null;
-  status: 'in_progress' | 'completed' | 'abandoned';
+  status: 'in_progress' | 'completed' | 'abandoned' | 'pass' | 'fail';
   selectionCriteria: string;
   createdAt: string;
   updatedAt: string | null;

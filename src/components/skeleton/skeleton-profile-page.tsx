@@ -2,15 +2,16 @@ import { Skeleton } from "@/components/ui/skeleton"
 
 export function SkeletonProfile() {
   return (  
-    <section className="w-full space-y-4">
-      <div className="flex flex-row mb-4 items-center gap-4">
+    <section className="w-full space-y-6">
+      <div className="flex flex-row mb-4 items-center gap-6">
         <div className="flex flex-col gap-2">
           <Skeleton className="h-6 w-56" />
           <Skeleton className="h-4 w-48" />
         </div>
       </div>
+      <div className="border rounded-lg"></div>
 
-      <div className="grid grid-cols-2 gap-4 mb-4">
+      <div className="grid grid-cols-2 gap-6 mb-4">
         <article className="flex flex-col">
           <h2 className="text-2xl font-semibold mb-4">Recent Quizzes</h2>
           <div className="space-y-2">

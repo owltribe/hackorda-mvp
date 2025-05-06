@@ -72,15 +72,17 @@ export default function ProfilePage() {
     : 0;
   
   return (  
-    <section className="w-full space-y-4">
-      <div className="flex flex-row items-center gap-4">
+    <section className="w-full space-y-6">
+      <div className="flex flex-row items-center">
         <div className="flex flex-col">
           <h1 className="text-2xl font-bold">{user.firstName || 'Student'} {user.lastName || 'Student'}</h1>
           <h2 className="text-l text-muted-foreground">{user.email}</h2>
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="border rounded-lg"></div>
+
+      <div className="grid grid-cols-2 gap-6">
         <article className="flex flex-col">
           <h2 className="text-2xl font-semibold mb-4">Recent Quizzes</h2>
           {quizzes.length > 0 ? (

@@ -2,24 +2,20 @@ import { Skeleton } from "@/components/ui/skeleton"
 
 export function SkeletonStartQuiz() {
     return (
-        <div className="container mx-auto py-10 px-4">
-            <div className="mx-auto max-w-4xl">
-                <div className="w-full space-y-6">
-                    <div className="space-y-2">
-                        <Skeleton className="h-8 w-[185px]" />
-                        <Skeleton className="h-4 w-135 " />
-                    </div>
+    <div className="container flex flex-col space-y-6">
 
-                    <div className="space-y-4">
-                        <div className="space-y-2">
-                            <Skeleton className="h-4 w-[140px]" />
-                            <Skeleton className="h-10 w-30" />
-                        </div>
+      <div className="flex flex-col items-start gap-2">
+        <h1 className="text-2xl text-foreground">Select a Quiz</h1>
+        <p className="text-lg text-muted-foreground">Choose your challenge below.</p>
+      </div>
 
-                        <Skeleton className="h-12 w-full" />
-                    </div>
-                </div>
-            </div>
-        </div>
+      <div className="border rounded-lg"></div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6 justify-center">
+        <Skeleton className="w-full h-48" />
+        <Skeleton className="w-full h-48" />
+      </div>
+
+    </div>
     )
 }
