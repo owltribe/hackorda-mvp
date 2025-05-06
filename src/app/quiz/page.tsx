@@ -61,11 +61,7 @@ export default function QuizPage() {
   };
 
   if (isLoadingUser) {
-    return (
-      <div className="container mx-auto py-10 px-4">
-        <SkeletonStartQuiz />
-      </div>
-    );
+    return <SkeletonStartQuiz />
   }
 
   if (userError || !user) {
@@ -79,12 +75,14 @@ export default function QuizPage() {
   }
   
   return (
-    <div className="container flex flex-col">
+    <div className="container flex flex-col space-y-6">
 
-      <div className="flex flex-col items-start gap-4 mb-10">
-        <h1 className="font-sans text-4xl font-bold">Select a Quiz</h1>
-        <p className="text-xl text-muted-foreground">Choose your challenge below.</p>
+      <div className="flex flex-col items-start gap-2">
+        <h1 className="text-2xl text-foreground">Select a Quiz</h1>
+        <p className="text-lg text-muted-foreground">Choose your challenge below.</p>
       </div>
+
+      <div className="border rounded-lg"></div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6 justify-center">
         {quizOptions.map((quiz) => (
