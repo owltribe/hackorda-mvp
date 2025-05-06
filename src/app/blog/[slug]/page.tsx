@@ -6,6 +6,9 @@ import { Button } from '@/components/ui/button'; // Assuming shadcn/ui Button
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { Metadata } from 'next';
 
+// Add this line to force dynamic server rendering and avoid DYNAMIC_SERVER_USAGE error
+export const dynamic = 'force-dynamic';
+
 // Define proper types for Next.js 15
 type Params = Promise<{
   slug: string;
