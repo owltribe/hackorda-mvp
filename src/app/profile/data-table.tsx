@@ -51,7 +51,7 @@ export function DataTable<TData, TValue>({
     },
     initialState: { // Set initial page size
       pagination: {
-        pageSize: 15, // Show 15 rows per page initially
+        pageSize: 10, // Show 15 rows per page initially
       },
     },
   })
@@ -59,7 +59,7 @@ export function DataTable<TData, TValue>({
   return (
     <section>
       <div className="rounded-md border mb-4">
-        <Table>
+        <Table className="w-full table-fixed">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>

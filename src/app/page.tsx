@@ -7,10 +7,17 @@ import { Flame, Users } from 'lucide-react';
 
 export default async function Home() {
   const user = await currentUser();
+<<<<<<< HEAD
   const latestPosts = getSortedPostsData().slice(0, 3);
   
   return (
     <section className="w-full space-y-8">
+=======
+  const latestPosts = getSortedPostsData().slice(0, 6);
+
+  return (
+    <section className="w-full space-y-6">
+>>>>>>> 7ee9351b6a993633a450514d617faf7b2e7e1fef
     <InProgressQuizNotifier />
 
       <div className="flex flex-row items-center">
@@ -22,10 +29,20 @@ export default async function Home() {
 
       <div className="border rounded-lg"></div>
 
+<<<<<<< HEAD
       <div className="flex flex-row gap-8">
 
         <article className="flex flex-col w-full lg:w-3/4">
           <h2 className="text-xl mb-6 text-foreground">Latest Blogs</h2>
+=======
+      <div className="flex flex-row gap-6">
+
+        <article className="flex flex-col w-full lg:w-3/4 space-y-6">
+          <div className="flex flex-row justify-between items-center">
+            <h2 className="text-xl text-foreground">Latest Blogs</h2>
+            <Link href="/blog" className="text-sm text-muted-foreground hover:text-primary hover:cursor-pointer">View All</Link>
+          </div>
+>>>>>>> 7ee9351b6a993633a450514d617faf7b2e7e1fef
           {latestPosts.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
               {latestPosts.map((post: PostData) => (
@@ -39,11 +56,18 @@ export default async function Home() {
 
         <div className="border rounded-lg"></div>
 
+<<<<<<< HEAD
         <aside className="flex flex-col w-full lg:w-1/4 mt-8 lg:mt-0">
           <h2 className="text-xl mb-6 text-foreground">Personal</h2>
           
           <div className="flex flex-col gap-6">
 
+=======
+        <aside className="flex flex-col w-full lg:w-1/4">
+          <h2 className="text-xl mb-6 text-foreground">Personal</h2>
+          
+          <div className="flex flex-col gap-6">
+>>>>>>> 7ee9351b6a993633a450514d617faf7b2e7e1fef
             <Link href="/profile" className="flex justify-between items-center p-4 border border-border rounded-lg shadow-md hover:shadow-green-brand transition-shadow duration-300">
               <div className="flex flex-col">
                 <h3 className="font-semibold text-foreground">Complete your profile</h3>
@@ -81,6 +105,7 @@ export default async function Home() {
 
       <div className="border rounded-lg"></div>
 
+<<<<<<< HEAD
       <div className="flex flex-row gap-8">
         <div className="flex flex-row items-center">
           <div className="flex flex-col gap-2">
@@ -89,6 +114,17 @@ export default async function Home() {
           </div>
         </div>
       </div>
+=======
+      {/* <div className="flex flex-row gap-8">
+        <div className="flex flex-row items-center">
+          <div className="flex flex-col gap-2">
+            <h1 className="text-xl text-foreground">Quick Start</h1>
+
+          </div>
+        </div>
+      </div> */}
+
+>>>>>>> 7ee9351b6a993633a450514d617faf7b2e7e1fef
     </section>
   );
 }
